@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>SiPandu - Login to your account</title>
+    <link rel="shortcut icon" href="/image/logo.svg" type="image/x-icon">
     @vite('resources/css/app.css')
 
 </head>
@@ -26,21 +27,21 @@
             </div>
 
             {{-- LOGIN FORM --}}
-            <label for="email" class="text-secondary text-[0.9vw] font-semibold">
+            <label for="email" class="text-biru text-[0.9vw] font-semibold">
                 Email*
             </label>
             <input type="text" class="w-full h-[3vw] border-[0.1vw] border-grey-500 placeholder:text-[0.9vw] pl-[1vw] mt-[1vw] mb-[1vw] rounded-[1vw] text-[0.9vw] outline-none" placeholder="Ex: mymail@mail.com">
-            <label for="email" class="text-secondary text-[0.9vw] font-semibold">
+            <label for="email" class="text-biru text-[0.9vw] font-semibold">
                 Password*
             </label>
             <input type="password" class="w-full h-[3vw] border-[0.1vw] border-grey-500 placeholder:text-[0.9vw] pl-[1vw] mt-[1vw] rounded-[1vw] text-[0.9vw] outline-none" placeholder="******">
             <div class="my-[1.3vw] flex items-center">
                 <input type="checkbox" id="myCheckbox" name="myCheckbox" value="checked" 
-                class="mr-[0.6vw] ml-[0.5vw] bg-secondary">
+                class="mr-[0.6vw] ml-[0.5vw] bg-biru">
                 <label for="myCheckbox" class="text-[0.9vw] text-third">Keep me logged in</label>
             </div>
-            <input type="submit" value="Sign In" class="text-[0.9vw] bg-secondary text-white w-full h-[3vw] rounded-[1vw] cursor-pointer">
-            <p class="text-third text-[0.9vw] mt-[1vw]">Not registered yet? <a href="" class="text-secondary">Create an Account</a></p>
+            <input type="submit" value="Sign In" class="text-[0.9vw] bg-biru text-white w-full h-[3vw] rounded-[1vw] cursor-pointer">
+            <p class="text-third text-[0.9vw] mt-[1vw]">Not registered yet? <a href="" class="text-biru">Create an Account</a></p>
         </div>
 
         {{-- Right Background --}}

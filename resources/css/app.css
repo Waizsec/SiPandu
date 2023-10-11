@@ -8,6 +8,23 @@
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
+* {
+    font-family: 'Gothic A1', sans-serif;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: transparent;
+}
 
 .bg-auth {
     background-image: url('../../public/image/auth-background.png');
