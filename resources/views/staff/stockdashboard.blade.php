@@ -101,7 +101,7 @@
                             <p class="mx-[1vw]">Type</p>
                         </td>
                         <td class="w-[17%]">
-                            <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru text-white">Update</button>
+                            <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Update</button>
                         </td>
                     </tr>
                     
