@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 // Auth
@@ -11,6 +11,10 @@ Route::get('/login', function () {
     return view('auth/login');
 });
 
+// User Route
+Route::get('/dashboard', function () {
+    return view('user/dashboard');
+});
 
 // Staff Route 
 Route::get('/cashier/dashboard', function () {

@@ -35,6 +35,13 @@
     animation: moveBackground 30s linear infinite;
 }
 
+.bg-hero {
+    background-image: url('../../public/image/hero.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 @keyframes moveBackground {
     0% {
         background-position: -50vw -20vw;
