@@ -11,10 +11,18 @@ Route::get('/login', function () {
     return view('auth/login');
 });
 
+
 // User Route
 Route::get('/dashboard', function () {
     return view('user/dashboard');
 });
+Route::get('/finance', function () {
+    return view('user/finance');
+});
+Route::get('/setting', function () {
+    return view('user/setting');
+});
+
 
 // Staff Route 
 Route::get('/cashier/dashboard', function () {

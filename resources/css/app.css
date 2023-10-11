@@ -55,3 +55,29 @@
         background-position: -50vw -20vw;
     }
 }
+
+.truncate-text {
+    max-width: 7vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#outer-div.move-right {
+    background-color: #70FF75;
+}
+#inner-div.move-right {
+    border-color: #70FF75;
+    transform: translateX(2.2vw);
+    transition: all 0.3s ease-in-out;
+}
+
+#outer-div.move-left {
+    background-color: #FF7373;
+}
+#inner-div.move-left {
+    border-color: #FF7373;
+    transform: translateX(0);
+    transition: all 0.3s ease-in-out;
+}
+

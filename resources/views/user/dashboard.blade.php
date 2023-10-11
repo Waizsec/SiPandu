@@ -17,7 +17,7 @@
             <h1 class="text-[2vw]">SiPandu</h1>
         </div>
         {{-- Nav --}}
-        <a href="" class="flex items-center pl-[2vw] mb-[1.5vw] bg-[#F5F5F7] w-[80%] h-[3.5vw] rounded-[0.5vw]">
+        <a href="/dashboard" class="flex items-center pl-[2vw] mb-[1.5vw] bg-[#F5F5F7] w-[80%] h-[3.5vw] rounded-[0.5vw]">
             <img src="/image/icons/dashboard-active.svg" class="w-[1.5vw] mr-[1.5vw]" alt="">
             <p class="text-third text-[1vw]">Dashboard</p>
         </a>
@@ -49,6 +49,78 @@
             <a href="" class="text-third bg-white w-[10vw] h-[3vw] flex items-center justify-center rounded-[0.7vw] text-[1vw]">
                 Make Report
             </a>
+        </div>
+
+        {{-- Table --}}
+        <div class="flex w-full mt-[3vw] justify-between">
+            <h2 class=" text-[1.5vw]">Cashflow History</h2>
+            <div class="flex">
+                <div class="w-[15vw] bg-[#F4F7FE] flex items-center px-[1vw] rounded-[1vw] h-[3vw]">
+                    <div class="flex">
+                        <img src="/image/icons/search.svg" class="w-[0.8vw]" alt="">
+                        <input type="text" placeholder="Search" class="ml-[1vw] bg-transparent text-[0.9vw] outline-none">
+                    </div>
+                </div>
+                <select name="" id="" class="text-[0.9vw] ml-[2vw] bg-transparent outline-none">
+                    <option value="week">This Week</option>
+                </select>
+            </div>
+        </div>
+        <table class="w-full">
+            <thead>
+                <tr class="border-b-[0.02vw] border-[#bbc6e4] h-[4vw] text-[#A3AED0] text-[0.9vw]">
+                    <th class="w-[25%]">
+                        <div class="flex items-center font-normal text-start">
+                            <p class="mx-[1vw]">Nama </p>
+                            <img src="/image/icons/dropdown.svg" class="w-[0.8vw]" alt="">
+                        </div>
+                    </th>
+                    <th class="w-[20%]">
+                        <div class="flex items-center font-normal text-start">
+                            <p class="mx-[1vw]">Cashflow</p>
+                            <img src="/image/icons/dropdown.svg" class="w-[0.8vw]" alt="">
+                        </div>
+                    </th>
+                    <th class="w-[20%]">
+                        <div class="flex items-center font-normal text-start">
+                            <p class="mx-[1vw]">Type</p>
+                            <img src="/image/icons/dropdown.svg" class="w-[0.8vw]" alt="">
+                        </div>
+                    </th>
+                    <th class="w-[20%]">
+                        <div class="flex items-center font-normal text-start">
+                            <p class="mx-[1vw]">Total</p>
+                            <img src="/image/icons/dropdown.svg" class="w-[0.8vw]" alt="">
+                        </div>
+                    </th>
+                    <th class="w-[17%]"></th>
+                </tr>
+            </thead>
+        </table>
+        <div class="w-full overflow-scroll max-h-[25vw] pb-[2vw] border-b-[0.02vw] border-[#bbc6e4]">
+            <table class="mt-[2vw] w-full">
+                <tbody>
+                    <tr class="text-[0.9vw] h-[3vw]">
+                        <td class="w-[25.5%]">
+                            <p class="mx-[1vw]">Burgers</p>
+                        </td>
+                        <td class="w-[20%]">
+                            <p class="mx-[1vw]">Income</p>
+                            
+                        </td>
+                        <td class="w-[20%]">
+                            <p class="mx-[1vw]">Invoice</p>
+                        </td>
+                        <td class="w-[20%]">
+                            <p class="mx-[1vw]">25.000</p>
+                        </td>
+                        <td class="w-[17%]">
+                            <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Detail</button>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
         </div>
     </div>
 
