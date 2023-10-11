@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+
+.bg-auth {
+    background-image: url('../../public/image/auth-background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 260%;
+    animation: moveBackground 30s linear infinite;
+}
+
+@keyframes moveBackground {
+    0% {
+        background-position: -50vw -20vw;
+    }
+
+    50% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: -50vw -20vw;
+    }
+}
