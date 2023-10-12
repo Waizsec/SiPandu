@@ -23,6 +23,7 @@ Route::get('/staff/login', function () {
 Route::post('/register/auth', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/logout', [UserController::class, 'logout']);
+Route::post('/updatestatus', [UserController::class, 'updateStatus']);
 
 
 
@@ -30,9 +31,7 @@ Route::get('/logout', [UserController::class, 'logout']);
 // Dashboard
 Route::get('/dashboard', [UserController::class, 'index'])->middleware('auth');
 Route::get('/finance',  [CashflowsController::class, 'show'])->middleware('auth');
-Route::get('/setting', function () {
-    return view('user/setting');
-})->middleware('auth');
+Route::get('/setting', [UserController::class, 'showSetting'])->middleware('auth');
 
 // Finance
 Route::post('/addfinance',  [CashflowsController::class, 'store']);

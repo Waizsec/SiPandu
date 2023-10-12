@@ -38,7 +38,7 @@
     <div class="mx-[19vw] px-[3vw] w-full relative">
         <div class="w-full flex items-center justify-between mt-[3vw]">
             <p class="text-third text-[1.6vw] leading-[2vw]">
-                Hi! Company Name
+                Hi! {{  ucfirst(session('username')) }}
                 <br><span class="text-[#828282] text-[1vw]">Let’s see what’s up today!</span>
             </p>
             <img src="/image/profil-dummy.png" class="w-[3.5vw]" alt="">
@@ -46,7 +46,7 @@
         <div class="bg-hero w-full h-[20vw] mt-[2vw] rounded-[1vw] px-[3vw] py-[3vw] flex flex-col">
             <h1 class="text-[2vw] text-white">Make Report Now!</h1>
             <p class="text-[#E3DAFF] text-[1vw] w-[25vw] mt-[0.9vw] mb-[2.5vw]">See how much you earn and spend this month with specific declaration!</p>
-            <a href="" class="text-third bg-white w-[10vw] h-[3vw] flex items-center justify-center rounded-[0.7vw] text-[1vw]">
+            <a href="/finance" class="text-third bg-white w-[10vw] h-[3vw] flex items-center justify-center rounded-[0.7vw] text-[1vw]">
                 Make Report
             </a>
         </div>
@@ -100,25 +100,30 @@
         <div class="w-full overflow-scroll max-h-[25vw] pb-[2vw] border-b-[0.02vw] border-[#bbc6e4]">
             <table class="mt-[2vw] w-full">
                 <tbody>
+                    @foreach ($cashflows as $item)                    
                     <tr class="text-[0.9vw] h-[3vw]">
                         <td class="w-[25.5%]">
-                            <p class="mx-[1vw]">Burgers</p>
+                            <p class="mx-[1vw]">{{ $item->cashflow }}</p>
                         </td>
                         <td class="w-[20%]">
-                            <p class="mx-[1vw]">Income</p>
+                            <p class="mx-[1vw]">{{ $item->type }}</p>
                             
                         </td>
                         <td class="w-[20%]">
-                            <p class="mx-[1vw]">Invoice</p>
+                            <p class="mx-[1vw]">{{ $item->category }}</p>
                         </td>
                         <td class="w-[20%]">
-                            <p class="mx-[1vw]">25.000</p>
+                            <p class="mx-[1vw]">{{ $item->total }}</p>
                         </td>
                         <td class="w-[17%]">
-                            <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Detail</button>
+                            <form action="/detailfinance" method="GET">
+                                @csrf
+                                <input type="text" name="id" class="hidden" id="" value="{{ $item->idfinance }}">
+                                <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Detail</button>
+                            </form>
                         </td>
                     </tr>
-                    
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -132,7 +137,7 @@
                 Income
                 <br>
                 <span class="text-[1.5vw] text-third">
-                    2.329K
+                    {{ $totalIncome }}
                 </span>
             </p>
        </div>
@@ -142,11 +147,11 @@
                 Outcome
                  <br>
                 <span class="text-[1.5vw] text-[#2B3674]">
-                2.329K
+                {{ $totalOutcome }}
                 </span>
             </p>
         </div>
-        <div class="flex mb-[2vw] w-full">
+        {{-- <div class="flex mb-[2vw] w-full">
             <img src="/image/icons/customer.svg" alt="">
             <p class="ml-[2vw] text-[0.8vw] text-[#A3AED0]">
                 Total Customer
@@ -155,17 +160,17 @@
                     121
                 </span>
             </p>
-        </div>
+        </div> --}}
         <div class="flex flex-col mb-[2vw] justify-start w-full ml-[3vw]">
             <p class="text-[0.8vw] text-[#A3AED0]">
                 Finances
                 <br>
                 <span class="text-[1.5vw] text-[#2B3674]">
-                    3.200K
+                    {{  $totalIncome - $totalOutcome }}
                 </span>
             </p>
             <p class="text-[0.8vw] text-[#A3AED0]">
-                <span class="text-green-500">+23%</span> since last month
+                <span class="text-green-500">0%</span> since last month
             </p>
         </div>
     </div>

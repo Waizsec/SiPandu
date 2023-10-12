@@ -40,7 +40,7 @@
         <div class="w-full min-h-[10vw] bg-white mt-[2vw] flex px-[2vw] py-[3vw] rounded-[1vw] items-center">
             <img src="/image/profil-dummy.png" class="w-[15vw]" alt="">
             <div class="ml-[6vw]">
-                <p class="flex text-[1.7vw] items-center">Users Name <img src="/image/icons/star.svg" class="ml-[1vw]" alt=""></p>
+                <p class="flex text-[1.7vw] items-center">{{ ucfirst(session('username')) }}<img src="/image/icons/star.svg" class="ml-[1vw]" alt=""></p>
                 <p class="mb-[1vw] mt-[0.3vw] text-[1.1vw] text-[#6F6F6F]">12 Years</p>
                 <p class="flex items-center text-[1.1vw] mb-[0.3vw] text-[#6F6F6F]">
                     <img src="/image/icons/profil-user.svg" class="w-[1.4vw] mr-[1vw]" alt="">
@@ -59,38 +59,58 @@
                 </p>
             </div>
         </div>
-        <div class="flex mt-[3vw] items-center">
+
+        {{-- Company Mode --}}
+        @if (isset($tokencashier))
+        <form class="flex mt-[3vw] items-center" action="/updatestatus" method="post">
+            @csrf
             <h2 class="text-[1.7vw]">Company Mode</h2>
-            <div class="w-[4vw] h-[1.8vw] bg-[#FF7373] ml-[2vw] rounded-full relative cursor-pointer" id="outer-div">
-                <div class="inner-div w-[1.8vw] h-full rounded-full bg-white border-[#FF7373] border-[0.1vw]" id="inner-div"></div>
-            </div>            
-        </div>
+            <button class="w-[4vw] h-[1.8vw] bg-[#70FF75] ml-[2vw] rounded-full relative cursor-pointer" onclick="return confirm('Change to user mode?')">
+                <div class="inner-div w-[1.8vw] h-full rounded-full bg-white border-[#70FF75] border-[0.1vw] move-right move-right"></div>
+            </button>
+        </form>
+        @else
+        <form class="flex mt-[3vw] items-center" action="/updatestatus" method="post">
+            @csrf
+            <h2 class="text-[1.7vw]">Company Mode</h2>
+            <button class="w-[4vw] h-[1.8vw] bg-[#FF7373] ml-[2vw] rounded-full relative cursor-pointer" onclick="return confirm('Change to company mode?')">
+                <div class="inner-div w-[1.8vw] h-full rounded-full bg-white border-[#FF7373] border-[0.1vw]"></div>
+            </button>
+        </form>
+        @endif
+        
         <div class="flex mt-[2vw] mb-[4vw]">
             <div class="flex flex-col px-[2vw] bg-white py-[1.5vw] rounded-[0.2vw] w-[27vw] mr-[3vw]">
                 <div class="flex justify-between w-full">
                     <p class="text-third text-[1.2vw] leading-[1.3vw]">Cashier <br> <span class="text-[0.9vw] text-[#A3AED0]">Invoice Making</span></p>
-                    <p class="text-[0.9vw] text-[#45ce4a]">Active</p>
+                    <p class="text-[0.9vw] text-merah" id="statusa">Inactive</p>
                 </div>
-                <div class="flex justify-between w-full items-center mt-[2.2vw]">
-                    <p class="text-secondary text-[1.1vw]">Token : AH21SH1</p>
-                    <a href="/cashier/dashboard" target="_blank" class="items-center justify-center bg-biru flex h-[2.7vw] rounded-full w-[40%] text-[0.9vw] text-white">Open Browser</a>
+
+                @if (isset($tokencashier))
+                <div class="flex justify-between w-full items-center mt-[2.2vw]" id="tokensa">
+                    <p class="text-secondary text-[1.1vw]">Token : {{ $tokencashier }}</p>
+                    <a href="/staff/login" target="_blank" class="items-center justify-center bg-biru flex h-[2.7vw] rounded-full w-[40%] text-[0.9vw] text-white">Open Browser</a>
                 </div>
+                @endif
+                
             </div>
             <div class="flex flex-col px-[2vw] bg-white py-[1.5vw] rounded-[0.2vw] w-[27vw]">
                 <div class="flex justify-between w-full">
                     <p class="text-third text-[1.2vw] leading-[1.3vw]">Stock Admin <br> <span class="text-[0.9vw] text-[#A3AED0]">Stock Managing</span></p>
-                    <p class="text-[0.9vw] text-[#45ce4a]">Active</p>
+                    <p class="text-[0.9vw] text-merah" id="statusb">Inactive</p>
                 </div>
-                <div class="flex justify-between w-full items-center mt-[2.2vw]">
-                    <p class="text-secondary text-[1.1vw]">Token : AH21SH1</p>
-                    <a href="/stock/dashboard" target="_blank" class="items-center justify-center bg-biru flex h-[2.7vw] rounded-full w-[40%] text-[0.9vw] text-white">Open Browser</a>
+                @if (isset($tokenstock))
+                <div class="flex justify-between w-full items-center mt-[2.2vw]" id="tokensa">
+                    <p class="text-secondary text-[1.1vw]">Token : {{ $tokenstock }}</p>
+                    <a href="/staff/login" target="_blank" class="items-center justify-center bg-biru flex h-[2.7vw] rounded-full w-[40%] text-[0.9vw] text-white">Open Browser</a>
                 </div>
+                @endif
             </div>
         </div>
         <div class="bg-hero w-full h-[20vw] mt-[2vw] rounded-[1vw] px-[3vw] py-[3vw] flex flex-col">
             <h1 class="text-[2vw] text-white">Make Report Now!</h1>
             <p class="text-[#E3DAFF] text-[1vw] w-[25vw] mt-[0.9vw] mb-[2.5vw]">See how much you earn and spend this month with specific declaration!</p>
-            <a href="" class="text-third bg-white w-[10vw] h-[3vw] flex items-center justify-center rounded-[0.7vw] text-[1vw]">
+            <a href="/finance" class="text-third bg-white w-[10vw] h-[3vw] flex items-center justify-center rounded-[0.7vw] text-[1vw]">
                 Make Report
             </a>
         </div>

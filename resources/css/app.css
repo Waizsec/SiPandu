@@ -63,21 +63,22 @@
     text-overflow: ellipsis;
 }
 
-#outer-div.move-right {
-    background-color: #70FF75;
-}
-#inner-div.move-right {
+.move-right {
     border-color: #70FF75;
     transform: translateX(2.2vw);
     transition: all 0.3s ease-in-out;
 }
-
-#outer-div.move-left {
-    background-color: #FF7373;
+.hide-this{
+    display: none;
 }
-#inner-div.move-left {
-    border-color: #FF7373;
-    transform: translateX(0);
-    transition: all 0.3s ease-in-out;
+.hide-this{
+    display: none;
 }
 
+.text-hijau{
+    color: #45ce4a;
+}
+
+.text-merah{
+    color: #FF7373;
+}

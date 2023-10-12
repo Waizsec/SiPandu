@@ -16,22 +16,11 @@
             <p class="text-[0.9vw] text-[#A3AED0] mt-[0.4vw] mb-[2vw]">
                 Please Enter Your Email and Password
             </p>
-            {{-- <a href="" class="text-[#2B3674] text-[0.9vw] mt-[2vw] w-full h-[3vw] flex items-center justify-center bg-[#F4F7FE] font-semibold">
-                <img src="image/google.png" class="mr-[0.8vw] w-[1vw]" alt="">
-                Sign in with Google
-            </a>
-            <div class="w-full my-[2vw] flex items-center justify-center">
-                <div class="w-[40%] h-[0.4px] mt-[0.4vw] bg-[#A3AED0]"></div>
-                <p class="text-[0.7vw] text-[#A3AED0] mt-[0.4vw] mx-[1vw]">or</p>
-                <div class="w-[40%] h-[0.4px] mt-[0.4vw] bg-[#A3AED0]"></div>
-            </div> --}}
-
-            {{-- LOGIN FORM --}}
-            <label for="email" class="text-biru text-[0.9vw] font-semibold">
+            <label for="email" class="text-biru text-[0.9vw]">
                 Email*
             </label>
             <input type="text" name="email" class="w-full h-[3vw] border-[0.1vw] border-grey-500 placeholder:text-[0.9vw] pl-[1vw] mt-[1vw] mb-[1vw] rounded-[1vw] text-[0.9vw] outline-none" placeholder="Ex: mymail@mail.com" required>
-            <label for="email" class="text-biru text-[0.9vw] font-semibold">
+            <label for="email" class="text-biru text-[0.9vw]">
                 Password*
             </label>
             <input type="password" name="password" class="w-full h-[3vw] border-[0.1vw] border-grey-500 placeholder:text-[0.9vw] pl-[1vw] mt-[1vw] rounded-[1vw] text-[0.9vw] outline-none" placeholder="******" required>
@@ -45,7 +34,7 @@
         </form>
         {{-- Right Background --}}
         <div class="w-[50vw] overflow-hidden bg-black bg-auth rounded-bl-[10vw] flex items-center justify-center">
-            <h1 class="text-[6vw] text-white font-semibold">
+            <h1 class="text-[6vw] text-white">
                 SiPandu
             </h1>
         </div>

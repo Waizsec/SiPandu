@@ -108,7 +108,7 @@
                             <p class="mx-[1vw]">{{ $cashflow->cashflow }}</p>
                         </td>
                         <td class="w-[13%]">
-                            <p class="mx-[1vw]">12-1-2003</p>
+                            <p class="mx-[1vw]">{{ $cashflow->created_at->format('Y-m-d') }}</p>
                             
                         </td>
                         <td class="w-[12.5%]">
