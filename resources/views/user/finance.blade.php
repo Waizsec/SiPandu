@@ -30,7 +30,7 @@
             <img src="/image/icons/setting.svg" class="w-[1.5vw] mr-[1.5vw]" alt="">
             <p class="text-[1vw] text-[#8E92BC]">Setting</p>
         </a>
-        <a href="" class="flex items-center pl-[2vw] mb-[1.5vw] w-[80%] h-[3.5vw] rounded-[0.5vw] hover:bg-[#F5F5F7] duration-[0.6s] ease">
+        <a href="/logout" class="flex items-center pl-[2vw] mb-[1.5vw] w-[80%] h-[3.5vw] rounded-[0.5vw] hover:bg-[#F5F5F7] duration-[0.6s] ease">
             <img src="/image/icons/user.svg" class="w-[1.5vw] mr-[1.5vw]" alt="">
             <p class="text-[1vw] text-[#8E92BC]">Logout</p>
         </a>
@@ -105,29 +105,33 @@
                     @foreach ($cashflows as $cashflow)
                     <tr class="text-[0.9vw] h-[3vw]">
                         <td class="w-[15.5%]">
-                            <p class="mx-[1vw]">{{ $cashflow->Cashflow }}</p>
+                            <p class="mx-[1vw]">{{ $cashflow->cashflow }}</p>
                         </td>
                         <td class="w-[13%]">
                             <p class="mx-[1vw]">12-1-2003</p>
                             
                         </td>
                         <td class="w-[12.5%]">
-                            <p class="mx-[1vw]">{{ $cashflow->Type }}</p>
+                            <p class="mx-[1vw]">{{ $cashflow->type }}</p>
                         </td>
                         <td class="w-[12.5%]">
-                            <p class="mx-[1vw]">{{ $cashflow->Category }}</p>
+                            <p class="mx-[1vw]">{{ $cashflow->category }}</p>
                         </td>
                         <td class="w-[12.5%]">
-                            <p class="ml-[1.3vw]">{{ $cashflow->Total }}</p>
+                            <p class="ml-[1.3vw]">{{ $cashflow->total }}</p>
                         </td>
                         <td class="w-[25%]">
                             <p class="ml-[1.6vw] truncate-text">
-                                {{ $cashflow->Desc }}
+                                {{ $cashflow->desc }}
                             </p>
                         </td>
                         
                         <td class="w-[10%]">
-                            <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Detail</button>
+                            <form action="/detailfinance" method="GET">
+                                @csrf
+                                <input type="text" name="id" class="hidden" id="" value="{{ $cashflow->idfinance }}">
+                                <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Detail</button>
+                            </form>
                         </td>
                     </tr>
                     @endforeach
@@ -135,7 +139,50 @@
             </table>
         </div>
 
-        {{-- Form Submit --}}
+
+        @if (isset($cashflowdetail))
+            {{-- Form Submit --}}
+        <h2 class=" text-[1.5vw] mt-[3vw]">Add New Cashflow</h2>
+        <form class="bg-white" action="/deletefinance" method="POST">
+            @csrf
+            <input type="text" name="id" class="hidden" id="" value="{{ $cashflow->idfinance }}">
+            <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] ">
+                <div class="h-[4vw] w-[25%]">
+                    <p class="text-[1vw] ">Cashflow</p>
+                    <input type="text" name="cashflow" value="{{ $cashflowdetail->cashflow }}" class="mt-[1vw] h-[2vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none">
+                </div>
+                <div class="h-[4vw] w-[15%]">
+                    <p class="text-[1vw] ">Total Price</p>
+                    <input type="text" name="total" value="{{ $cashflowdetail->total }}" class="mt-[1vw] h-[2vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none">
+                </div>
+                <div class="h-[4vw]">
+                    <p class="text-[1vw] ">Type</p>
+                    <select id="myDropdown" name="type" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
+                        <option value="{{ $cashflowdetail->Type }}">{{ $cashflowdetail->type }}</option>
+                    </select>
+                </div>
+                <div class="h-[4vw]">
+                    <p class="text-[1vw] ">Category</p>
+                    <select id="myDropdown" name="category" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
+                        <option value="{{ $cashflowdetail->Category }}">{{ $cashflowdetail->category }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] justify-between relative">
+                <div class="">
+                    <p class="text-[1vw] ">Description</p>
+                    <textarea name="desc" id="" cols="30" rows="10" placeholder="Type Here..." class="mt-[1vw] h-[6vw] w-[40vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none" >{{ $cashflowdetail->desc }}</textarea>
+                </div>
+                <div class="h-f flex items-center justify-end absolute bottom-[2vw] right-[4vw]">
+                    <input type="text" name="id" value="{{ $cashflow->idfinance }}" hidden>
+                    <button class="flex ml-[2vw] w-[8vw] h-[2.3vw] items-center justify-center px-[1vw] rounded-[0.5vw] bg-red-400 text-white" onclick="return confirm('Are you sure to delete this data?')">
+                        <p class="text-[1vw]">Delete</p>
+                    </button>
+                </div>
+            </div>
+        </form>
+        @else
+            {{-- Form Submit --}}
         <h2 class=" text-[1.5vw] mt-[3vw]">Add New Cashflow</h2>
         <form class="bg-white" action="/addfinance" method="POST">
             @csrf
@@ -175,6 +222,8 @@
                 </div>
             </div>
         </form>
+        @endif
+        
 
         <div class="h-[10vw]"></div>
     </div>

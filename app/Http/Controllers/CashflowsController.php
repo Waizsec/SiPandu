@@ -4,19 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Cashflows;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CashflowsController extends Controller
 {
-    public function index()
-    {
-        //
-    }
-
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
   
@@ -39,18 +30,16 @@ class CashflowsController extends Controller
     
 
  
-    public function edit(Cashflows $cashflows)
+    public function detail(Request $request)
     {
-        //
+        $cashflows = Cashflows::all(); 
+        $cashflowdetail = Cashflows::where('idFinance', $request->id)->first();
+        return view('user/finance', compact('cashflows', 'cashflowdetail')); 
+        
     }
 
-    public function update(Request $request, Cashflows $cashflows)
-    {
-        //
-    }
-
-    public function destroy(Cashflows $cashflows)
-    {
-        //
+    public function delete(Request $request){
+        $status = DB::table('cashflows')->where('IdFinance', $request->id)->delete();
+        return redirect('/finance');
     }
 }

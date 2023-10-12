@@ -12,16 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cashflows', function (Blueprint $table) {
-            $table->id('IdFinance'); // Primary key
-            $table->string('Cashflow', 255); // String column with a maximum length of 255 characters
-            $table->enum('Type', ['income', 'outcome']); // Enum column with two possible values
-            $table->string('Category'); // String column
-            $table->integer('Total'); // Integer column
-            $table->string('Desc'); // Integer column
-            $table->unsignedBigInteger('stockid')->nullable(); // Nullable unsigned big integer
-            $table->unsignedBigInteger('voiceid')->nullable(); // Nullable unsigned big integer
-
-            $table->timestamps(); // Created at and updated at timestamps
+            $table->id('idfinance'); // Primary key
+            $table->string('cashflow', 255); // String column with a maximum length of 255 characters
+            $table->enum('type', ['income', 'outcome']); // Enum column with two possible values
+            $table->string('category'); // String column
+            $table->integer('total'); // Integer column
+            $table->string('desc'); // Integer column
+            $table->unsignedBigInteger('stockid')->nullable();
+            $table->unsignedBigInteger('voiceid')->nullable();
+            $table->unsignedBigInteger('iduser')->nullable();
+            $table->timestamps(); 
+            $table->foreign('iduser')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -30,7 +30,7 @@
             <img src="/image/icons/setting-active.svg" class="w-[1.5vw] mr-[1.5vw]" alt="">
             <p class="text-[1vw] text-third">Setting</p>
         </a>
-        <a href="" class="flex items-center pl-[2vw] mb-[1.5vw] w-[80%] h-[3.5vw] rounded-[0.5vw] hover:bg-[#F5F5F7] duration-[0.6s] ease">
+        <a href="/logout" class="flex items-center pl-[2vw] mb-[1.5vw] w-[80%] h-[3.5vw] rounded-[0.5vw] hover:bg-[#F5F5F7] duration-[0.6s] ease">
             <img src="/image/icons/user.svg" class="w-[1.5vw] mr-[1.5vw]" alt="">
             <p class="text-[1vw] text-[#8E92BC]">Logout</p>
         </a>
