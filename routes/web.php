@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CashflowsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -10,18 +11,23 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('auth/login');
 });
+Route::get('/staff/login', function () {
+    return view('auth/logintoken');
+});
+
 
 
 // User Route
 Route::get('/dashboard', function () {
     return view('user/dashboard');
 });
-Route::get('/finance', function () {
-    return view('user/finance');
-});
+Route::get('/finance',  [CashflowsController::class, 'show']);
 Route::get('/setting', function () {
     return view('user/setting');
 });
+
+Route::post('/addfinance',  [CashflowsController::class, 'store']);
+
 
 
 // Staff Route 

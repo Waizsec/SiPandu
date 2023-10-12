@@ -102,26 +102,27 @@
         <div class="w-full overflow-scroll max-h-[25vw] pb-[2vw] border-b-[0.02vw] border-[#bbc6e4]">
             <table class="mt-[2vw] w-full">
                 <tbody>
+                    @foreach ($cashflows as $cashflow)
                     <tr class="text-[0.9vw] h-[3vw]">
                         <td class="w-[15.5%]">
-                            <p class="mx-[1vw]">Paving</p>
+                            <p class="mx-[1vw]">{{ $cashflow->Cashflow }}</p>
                         </td>
                         <td class="w-[13%]">
                             <p class="mx-[1vw]">12-1-2003</p>
                             
                         </td>
                         <td class="w-[12.5%]">
-                            <p class="mx-[1vw]">Income</p>
+                            <p class="mx-[1vw]">{{ $cashflow->Type }}</p>
                         </td>
                         <td class="w-[12.5%]">
-                            <p class="mx-[1vw]">Outcome</p>
+                            <p class="mx-[1vw]">{{ $cashflow->Category }}</p>
                         </td>
                         <td class="w-[12.5%]">
-                            <p class="ml-[1.3vw]">120.000</p>
+                            <p class="ml-[1.3vw]">{{ $cashflow->Total }}</p>
                         </td>
                         <td class="w-[25%]">
                             <p class="ml-[1.6vw] truncate-text">
-                                Well, actually there's nothing bla bla
+                                {{ $cashflow->Desc }}
                             </p>
                         </td>
                         
@@ -129,40 +130,41 @@
                             <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Detail</button>
                         </td>
                     </tr>
-                    
+                    @endforeach
                 </tbody>
             </table>
         </div>
 
         {{-- Form Submit --}}
         <h2 class=" text-[1.5vw] mt-[3vw]">Add New Cashflow</h2>
-        <form class="bg-white">
+        <form class="bg-white" action="/addfinance" method="POST">
+            @csrf
             <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] ">
                 <div class="h-[4vw] w-[25%]">
-                    <p class="text-[1vw] ">Items Name</p>
-                    <input type="text" placeholder="Type Here.." class="mt-[1vw] h-[2vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none">
+                    <p class="text-[1vw] ">Cashflow</p>
+                    <input type="text" name="cashflow" placeholder="Type Here.." class="mt-[1vw] h-[2vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none">
                 </div>
                 <div class="h-[4vw] w-[15%]">
                     <p class="text-[1vw] ">Total Price</p>
-                    <input type="text" placeholder="Ex: 250000" class="mt-[1vw] h-[2vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none">
+                    <input type="text" name="total" placeholder="Ex: 250000" class="mt-[1vw] h-[2vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none">
                 </div>
                 <div class="h-[4vw]">
-                    <p class="text-[1vw] ">Cashflow Type</p>
-                    <select id="myDropdown" name="cashflow" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
+                    <p class="text-[1vw] ">Type</p>
+                    <select id="myDropdown" name="type" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
                         <option value="income">Income</option>
                         <option value="outcome">Outcome</option>
                     </select>
                 </div>
                 <div class="h-[4vw]">
-                    <p class="text-[1vw] ">Items Type</p>
-                    <select id="myDropdown" name="type" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
+                    <p class="text-[1vw] ">Category</p>
+                    <select id="myDropdown" name="category" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
                         <option value="others">Others</option>
                     </select>
                 </div>
             </div>
             <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] justify-between relative">
                 <div class="">
-                    <p class="text-[1vw] ">Items Name</p>
+                    <p class="text-[1vw] ">Description</p>
                     <textarea name="desc" id="" cols="30" rows="10" placeholder="Type Here..." class="mt-[1vw] h-[6vw] w-[40vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none" ></textarea>
                 </div>
                 <div class="h-f flex items-center justify-end absolute bottom-[2vw] right-[4vw]">
@@ -172,8 +174,8 @@
                     </button>
                 </div>
             </div>
-            
         </form>
+
         <div class="h-[10vw]"></div>
     </div>
 
