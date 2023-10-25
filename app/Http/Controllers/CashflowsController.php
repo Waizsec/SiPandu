@@ -22,12 +22,6 @@ class CashflowsController extends Controller
     
         return redirect('/finance');
     }
-
-    public function show()
-    {
-        $cashflows = Cashflows::where('iduser', Auth::id())->get();
-        return view('user/finance', compact('cashflows')); 
-    }
     
  
     public function detail(Request $request)
@@ -42,4 +36,25 @@ class CashflowsController extends Controller
         $status = DB::table('cashflows')->where('IdFinance', $request->id)->delete();
         return redirect('/finance');
     }
+
+    public function update(Request $request) {
+        $id = $request->id;
+    
+        $affected = DB::table('cashflows')
+            ->where('idfinance', $id)
+            ->update([
+                'cashflow' => $request->cashflow,
+                'type' => $request->type,
+                'category' => $request->category,
+                'total' => $request->total,
+                'desc' => $request->desc,
+            ]);
+    
+        if ($affected) {
+            return redirect('/finance');
+        }else{
+            return redirect('/finance');
+        }
+    }
+    
 }

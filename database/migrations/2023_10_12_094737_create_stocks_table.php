@@ -18,6 +18,9 @@ return new class extends Migration
             $table->decimal('buy_price', 10, 2);
             $table->integer('stock');
             $table->string('type');
+            $table->unsignedBigInteger('iduser')->nullable();
+            $table->timestamps(); 
+            $table->foreign('iduser')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

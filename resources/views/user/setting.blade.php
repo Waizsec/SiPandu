@@ -40,20 +40,20 @@
         <div class="w-full min-h-[10vw] bg-white mt-[2vw] flex px-[2vw] py-[3vw] rounded-[1vw] items-center">
             <img src="/image/profil-dummy.png" class="w-[15vw]" alt="">
             <div class="ml-[6vw]">
-                <p class="flex text-[1.7vw] items-center">{{ ucfirst(session('username')) }}<img src="/image/icons/star.svg" class="ml-[1vw]" alt=""></p>
-                <p class="mb-[1vw] mt-[0.3vw] text-[1.1vw] text-[#6F6F6F]">12 Years</p>
+                <p class="flex text-[1.7vw] items-center">{{ ucfirst($userInfo->name) }}<img src="/image/icons/star.svg" class="ml-[1vw]" alt=""></p>
+                <p class="mb-[1vw] mt-[0.3vw] text-[1.1vw] text-[#6F6F6F]"><?php if ($years < 1) { echo 'Less Than 1'; }else{echo $years;} ?> Year (Joined)</p>
                 <p class="flex items-center text-[1.1vw] mb-[0.3vw] text-[#6F6F6F]">
                     <img src="/image/icons/profil-user.svg" class="w-[1.4vw] mr-[1vw]" alt="">
-                    +62 87860910222
+                    {{ $userInfo->phone }}
                 </p>
                 <p class="flex items-center text-[1.1vw] text-[#6F6F6F]">
                     <img src="/image/icons/alamat-user.svg" class="w-[1.4vw] mr-[1vw]" alt="">
-                    Jalan. Pulau Roti, Gg. Banteng, No.64
+                    {{ $userInfo->email }}
                 </p>
             </div>
             <div class="ml-[9vw] flex flex-col justify-center text-center items-center w-[16vw]">
                 <p class="flex text-[1.2vw] items-center mb-[-1vw]">Your Total Earning</p>
-                <p class="text-[5.5vw] text-biru">8JT</p>
+                <p class="text-[5.5vw] text-biru">{{ $totalmoney }}JT</p>
                 <p class="flex items-center text-[0.7vw] text-[#6F6F6F] mt-[-1vw]">
                     *Earn 2JT more to reach 2 star!
                 </p>
@@ -83,7 +83,11 @@
             <div class="flex flex-col px-[2vw] bg-white py-[1.5vw] rounded-[0.2vw] w-[27vw] mr-[3vw]">
                 <div class="flex justify-between w-full">
                     <p class="text-third text-[1.2vw] leading-[1.3vw]">Cashier <br> <span class="text-[0.9vw] text-[#A3AED0]">Invoice Making</span></p>
-                    <p class="text-[0.9vw] text-merah" id="statusa">Inactive</p>
+                    @if (isset($tokenstock))
+                        <p class="text-[0.9vw] text-hijau" id="statusb">Active</p>
+                    @else
+                        <p class="text-[0.9vw] text-merah" id="statusb">Inactive</p>
+                    @endif
                 </div>
 
                 @if (isset($tokencashier))
@@ -97,7 +101,11 @@
             <div class="flex flex-col px-[2vw] bg-white py-[1.5vw] rounded-[0.2vw] w-[27vw]">
                 <div class="flex justify-between w-full">
                     <p class="text-third text-[1.2vw] leading-[1.3vw]">Stock Admin <br> <span class="text-[0.9vw] text-[#A3AED0]">Stock Managing</span></p>
-                    <p class="text-[0.9vw] text-merah" id="statusb">Inactive</p>
+                    @if (isset($tokenstock))
+                        <p class="text-[0.9vw] text-hijau" id="statusb">Active</p>
+                    @else
+                        <p class="text-[0.9vw] text-merah" id="statusb">Inactive</p>
+                    @endif
                 </div>
                 @if (isset($tokenstock))
                 <div class="flex justify-between w-full items-center mt-[2.2vw]" id="tokensa">
@@ -116,8 +124,6 @@
         </div>
     </div>
   </div>
-
-  <script src="/js/setting.js"></script>
 </body>
 </html>
 

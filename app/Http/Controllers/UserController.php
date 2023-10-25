@@ -3,117 +3,141 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cashflows;
+use App\Models\Stocks;
 use App\Models\User;
 use App\Models\Usertokens;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+
 
 class UserController extends Controller
 {
-    // Tampilan
-    public function index(){
+    public function index(Request $request){
         $cashflows = Cashflows::where('iduser', Auth::id())->get();
         $totalIncome = $cashflows->where('type', 'income')->sum('total');
         $totalOutcome = $cashflows->where('type', 'outcome')->sum('total');
         session(['username' => Auth::user()->name]);
-        return view('user/dashboard', compact('cashflows', 'totalIncome', 'totalOutcome'));
+
+        $calculation = $totalIncome - $totalOutcome;
+        if ($calculation < 0) {
+            $totalmoney = '-';
+        } elseif ($calculation >= 1000000) { 
+            $totalmoney = floor($calculation / 1000); 
+        } else {
+            $totalmoney = $calculation; 
+        }
+    
+        if (isset($request->search)) {
+            $searchTerm = $request->search;
+            $cashflows = $cashflows->filter(function($cashflow) use ($searchTerm) {
+                return str_contains(strtolower($cashflow->cashflow), strtolower($searchTerm))
+                    || str_contains(strtolower($cashflow->type), strtolower($searchTerm))
+                    || str_contains(strtolower($cashflow->category), strtolower($searchTerm));
+            });
+            return view('user/dashboard', compact('cashflows', 'totalIncome', 'totalOutcome', 'searchTerm', 'totalmoney'));
+        }else{
+            return view('user/dashboard', compact('cashflows', 'totalIncome', 'totalOutcome', 'totalmoney'));
+        }
+        
     }
+
+
+    public function showFinance(Request $request)
+    {
+        $cashflows = Cashflows::where('iduser', Auth::id())->get();
+        if (isset($request->search)) {
+            $searchTerm = $request->search;
+            $cashflows = $cashflows->filter(function($cashflow) use ($searchTerm) {
+                return str_contains(strtolower($cashflow->cashflow), strtolower($searchTerm))
+                    || str_contains(strtolower($cashflow->type), strtolower($searchTerm))
+                    || str_contains(strtolower($cashflow->category), strtolower($searchTerm));
+            });
+            return view('user/finance', compact('cashflows', 'searchTerm'));
+        }else{
+            return view('user/finance', compact('cashflows'));
+        }
+    }
+    
 
     public function showSetting(){
         $tokencashier = Usertokens::where('userid', Auth::id())->where('role', 'cashier')->value('tokens');
         $tokenstock = Usertokens::where('userid', Auth::id())->where('role', 'stock')->value('tokens');
+        $userInfo = Auth::user();
 
+        // Years since joined
+        $userRegistrationDate = $userInfo->created_at;
+        $currentDate = Carbon::now();
+        $years = $currentDate->diffInYears($userRegistrationDate);        
+
+        // Total Eearning
+        $cashflows = Cashflows::where('iduser', Auth::id())->get();
+        $totalIncome = $cashflows->where('type', 'income')->sum('total');
+        $totalOutcome = $cashflows->where('type', 'outcome')->sum('total');
+
+        $calculation = $totalIncome - $totalOutcome;
+        if ($calculation < 0) {
+            $totalmoney = '-';
+        } elseif ($calculation >= 1000000) { 
+            $totalmoney = floor($calculation / 1000000); 
+        } else {
+            $totalmoney = $calculation; 
+        }
         
        if ($tokencashier != null) {
-        return view('user/setting', compact('tokencashier', 'tokenstock'));
+        return view('user/setting', compact('tokencashier', 'tokenstock', 'userInfo', 'years', 'totalmoney'));
        }else{
-        return view('user/setting');
+        return view('user/setting', compact('userInfo', 'years', 'totalmoney'));
        }
+    }
+
+    public function showStock(){
+        if (session('tokens')) {
+            $tokens = session('tokens');
+            $user = Usertokens::where('tokens', $tokens)->where('role', 'stock')->first();
+            if ($user) {
+                $userId = $user->userid;
+                $username = User::where('id', $userId)->value('name');
+                if ($username) {
+                    session(['username' => $username]);
+                    session(['userid' => $userId]);
+                    $stocks = Stocks::where('iduser', $userId)->get();
+                    $types = Stocks::where('iduser',$userId)->distinct()->pluck('type')->unique()->all();
+                    return view('/staff/stockdashboard', compact('stocks', 'types'));
+                } else {
+                    return redirect('/staff/login');
+                }
+            } else {
+                return redirect('/staff/login');
+            }
+        } else {
+            return redirect('/staff/login');
+        }
+    }
     
+    public function showCashier(){
+
+        if (session('tokens') != null) {
+            $tokens = session('tokens');
+            $user = Usertokens::where('tokens', $tokens)->where('role', 'cashier')->first();
+            
+            if ($user) {
+                $userId = $user->userid;
+                
+                $username = User::where('id', $userId)->value('name');
+                if ($username) {
+                    session(['username' => $username]);
+                    session(['userid' => $userId]);
+                    $stocks = Stocks::where('iduser', $userId)->get();
+                    $types = Stocks::where('iduser', $userId)->distinct()->pluck('type')->unique()->all();
+                    return view('/staff/cashierdashboard', compact('stocks', 'types'));
+                }
+            }else{
+                return redirect('/staff/login');
+            }
+        }else{
+            return redirect('/staff/login');
+        }
         
     }
-    
-    // Authentification
-    public function register(Request $request)
-    {
-        $data = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
-        ];
-        User::create($data);
-
- 
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
- 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
- 
-            return redirect('/dashboard');
-        }else{
-            return redirect('login');
-        }
-    }
-
-    public function login(Request $request)
-    {
-       $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
- 
-        if (Auth::attempt($credentials)) {
-            // ngegenerate session
-            $request->session()->regenerate();
-            return redirect('/dashboard');
-        }else{
-            return redirect('login');
-        }
-    }
-
-    public function logout(Request $request): RedirectResponse
-    {
-        Auth::logout();
-        // Ini buat ngapus session
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/');
-    }   
-
-    public function updateStatus()
-    {
-        $userId = Auth::id();
-        $user = User::find($userId);
-        
-        if ($user->type === 'company') {
-            if (DB::table('users')
-                ->where('id', $userId)
-                ->update(['type' => 'user'])) {
-                if (DB::table('usertokens')
-                    ->where('userid', $userId)
-                    ->delete());
-            } 
-        } elseif ($user->type === 'user') {
-            if (DB::table('users')
-                ->where('id', $userId)
-                ->update(['type' => 'company'])) {
-                $cashierToken = Str::random(10);
-                $stockToken = Str::random(10);
-                if (DB::table('usertokens')->insert([
-                    ['userid' => $userId, 'tokens' => $cashierToken, 'role' => 'cashier'],
-                    ['userid' => $userId, 'tokens' => $stockToken, 'role' => 'stock'],
-                ])); 
-            } 
-        }
-        return redirect('/setting');
-    }
-    
 }

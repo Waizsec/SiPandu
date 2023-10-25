@@ -41,19 +41,118 @@
         {{-- Title --}}
         <h1 class="text-third text-[2vw] w-full mt-[4vw] pb-[2vw] border-b-[0.1vw] border-[#9a9a9a] ">Finance Information</h1>
 
+        {{-- Add New --}}
+        @if (isset($cashflowdetail))
+            {{-- Form Submit --}}
+        <h2 class=" text-[1.5vw] mt-[3vw]">Update Cashflows</h2>
+        <div class="relative">
+            <form class="bg-white" action="/updatefinance" method="POST">
+                @csrf
+                <input type="text" name="id" class="hidden" id="id" value="{{ $cashflowdetail->idfinance }}">
+                <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] ">
+                    <div class="h-[4vw] w-[25%]">
+                        <p class="text-[1vw] ">Cashflow</p>
+                        <input type="text" name="cashflow" value="{{ $cashflowdetail->cashflow }}" class="mt-[1vw] h-[2vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none">
+                    </div>
+                    <div class="h-[4vw] w-[15%]">
+                        <p class="text-[1vw] ">Total Price</p>
+                        <input type="text" name="total" value="{{ $cashflowdetail->total }}" class="mt-[1vw] h-[2vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none">
+                    </div>
+                    <div class="h-[4vw]">
+                        <p class="text-[1vw] ">Type</p>
+                        <select id="myDropdown" name="type" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
+                            <option value="{{ $cashflowdetail->type }}">{{ $cashflowdetail->type }}</option>
+                        </select>
+                    </div>
+                    <div class="h-[4vw]">
+                        <p class="text-[1vw] ">Category</p>
+                        <select id="myDropdown" name="category" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
+                            <option value="{{ $cashflowdetail->category }}">{{ $cashflowdetail->category }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] justify-between relative">
+                    <div class="">
+                        <p class="text-[1vw] ">Description</p>
+                        <textarea name="desc" id="" cols="30" rows="10" placeholder="Type Here..." class="mt-[1vw] h-[6vw] w-[40vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none" >{{ $cashflowdetail->desc }}</textarea>
+                    </div>
+                    <div class="h-f flex items-center justify-end absolute bottom-[2vw] right-[4vw]">
+                        <button class="flex ml-[2vw] w-[8vw] h-[2.3vw] items-center justify-center px-[1vw] rounded-[0.5vw] bg-biru text-white" onclick="return confirm('Are you sure to update this data?')">
+                            <p class="text-[1vw]">Update</p>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <a href="/finance" method="post" class="absolute top-[-1vw] right-[-1vw]">
+                @csrf
+                <button class="flex ml-[2vw] w-[2.4vw] rounded-full h-[2.3vw] items-center justify-center px-[1vw] bg-red-500 text-white">
+                    <p class="text-[1.3vw] font-semibold">x</p>
+                </button>
+            </a>
+            <form action="/deletefinance" method="post" class="absolute bottom-[2vw] right-[13vw]">
+                @csrf
+                <input type="text" name="id" value="{{ $cashflowdetail->idfinance }}" hidden>
+                <button class="flex ml-[2vw] w-[8vw] h-[2.3vw] items-center justify-center px-[1vw] rounded-[0.5vw] bg-red-400 text-white" onclick="return confirm('Are you sure to delete this data?')">
+                    <p class="text-[1vw]">Delete</p>
+                </button>
+            </form>
+        </div>
+        @else
+            {{-- Form Submit --}}
+        <h2 class=" text-[1.5vw] mt-[3vw]">Add New Cashflow</h2>
+        <form class="bg-white" action="/addfinance" method="POST">
+            @csrf
+            <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] ">
+                <div class="h-[4vw] w-[25%]">
+                    <p class="text-[1vw] ">Cashflow</p>
+                    <input type="text" name="cashflow" placeholder="Type Here.." class="mt-[1vw] h-[2vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none">
+                </div>
+                <div class="h-[4vw] w-[15%]">
+                    <p class="text-[1vw] ">Total Price</p>
+                    <input type="text" name="total" placeholder="Ex: 250000" class="mt-[1vw] h-[2vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none">
+                </div>
+                <div class="h-[4vw]">
+                    <p class="text-[1vw] ">Type</p>
+                    <select id="myDropdown" name="type" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
+                        <option value="income">Income</option>
+                        <option value="outcome">Outcome</option>
+                    </select>
+                </div>
+                <div class="h-[4vw]">
+                    <p class="text-[1vw] ">Category</p>
+                    <select id="myDropdown" name="category" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
+                        <option value="others">Others</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] justify-between relative">
+                <div class="">
+                    <p class="text-[1vw] ">Description</p>
+                    <textarea name="desc" id="" cols="30" rows="10" placeholder="Type Here..." class="mt-[1vw] h-[6vw] w-[40vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none" ></textarea>
+                </div>
+                <div class="h-f flex items-center justify-end absolute bottom-[2vw] right-[4vw]">
+                    <button class="flex ml-[2vw] w-[8vw] h-[3vw] border-[0.1vw] border-[#c2c2c2] items-center justify-between px-[1vw] rounded-[0.5vw] ">
+                        <p class="text-[0.9vw]">Add</p>
+                        <p class="text-[1.4vw] mt-[-0.3vw]">+</p>
+                    </button>
+                </div>
+            </div>
+        </form>
+        @endif
+
         {{-- Content 1 - Table --}}
         <div class="flex w-full justify-between mt-[3vw]">
             <h2 class=" text-[1.5vw]">Cashflow History</h2>
             <div class="flex">
                 <div class="w-[15vw] bg-[#F4F7FE] flex items-center px-[1vw] rounded-[1vw] h-[3vw]">
-                    <div class="flex">
-                        <img src="/image/icons/search.svg" class="w-[0.8vw]" alt="">
-                        <input type="text" placeholder="Search" class="ml-[1vw] bg-transparent text-[0.9vw] outline-none">
-                    </div>
+                    <form class="flex" action="/finance" method="get">
+                        @csrf
+                        <button>
+                            <img src="/image/icons/search.svg" class="w-[0.8vw]" alt="">
+                        </button>
+                        <input type="text" name="search" placeholder="Search" class="ml-[1vw] bg-transparent text-[0.9vw] outline-none" id="searchInput" value="<?php if(isset($searchTerm)) { echo $searchTerm; } ?>">
+                    </form>
                 </div>
-                <select name="" id="" class="text-[0.9vw] ml-[2vw] bg-transparent outline-none">
-                    <option value="week">This Week</option>
-                </select>
             </div>
         </div>
         <table class="w-full">
@@ -99,130 +198,48 @@
                 </tr>
             </thead>
         </table>
-        <div class="w-full overflow-scroll max-h-[25vw] pb-[2vw] border-b-[0.02vw] border-[#bbc6e4]">
-            <table class="mt-[2vw] w-full">
-                <tbody>
-                    @foreach ($cashflows as $cashflow)
-                    <tr class="text-[0.9vw] h-[3vw]">
-                        <td class="w-[15.5%]">
-                            <p class="mx-[1vw]">{{ $cashflow->cashflow }}</p>
-                        </td>
-                        <td class="w-[13%]">
-                            <p class="mx-[1vw]">{{ $cashflow->created_at->format('Y-m-d') }}</p>
+        <div class="w-full py-[1vw] border-b-[0.02vw] border-[#bbc6e4]">
+            <div class="w-full overflow-scroll max-h-[16vw]">
+                <table class="w-full">
+                    <tbody>
+                        @foreach ($cashflows as $cashflow)
+                        <tr class="text-[0.9vw] h-[3vw]">
+                            <td class="w-[15.5%]">
+                                <p class="mx-[1vw]">{{ $cashflow->cashflow }}</p>
+                            </td>
+                            <td class="w-[13%]">
+                                <p class="mx-[1vw]">{{ $cashflow->created_at->format('Y-m-d') }}</p>
+                                
+                            </td>
+                            <td class="w-[12.5%]">
+                                <p class="mx-[1vw]">{{ $cashflow->type }}</p>
+                            </td>
+                            <td class="w-[12.5%]">
+                                <p class="mx-[1vw]">{{ $cashflow->category }}</p>
+                            </td>
+                            <td class="w-[12.5%]">
+                                <p class="ml-[1.3vw]">{{ $cashflow->total }}</p>
+                            </td>
+                            <td class="w-[25%]">
+                                <p class="ml-[1.6vw] truncate-text">
+                                    {{ $cashflow->desc }}
+                                </p>
+                            </td>
                             
-                        </td>
-                        <td class="w-[12.5%]">
-                            <p class="mx-[1vw]">{{ $cashflow->type }}</p>
-                        </td>
-                        <td class="w-[12.5%]">
-                            <p class="mx-[1vw]">{{ $cashflow->category }}</p>
-                        </td>
-                        <td class="w-[12.5%]">
-                            <p class="ml-[1.3vw]">{{ $cashflow->total }}</p>
-                        </td>
-                        <td class="w-[25%]">
-                            <p class="ml-[1.6vw] truncate-text">
-                                {{ $cashflow->desc }}
-                            </p>
-                        </td>
-                        
-                        <td class="w-[10%]">
-                            <form action="/detailfinance" method="GET">
-                                @csrf
-                                <input type="text" name="id" class="hidden" id="" value="{{ $cashflow->idfinance }}">
-                                <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Detail</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                            <td class="w-[10%]">
+                                <form action="/detailfinance" method="GET">
+                                    @csrf
+                                    <input type="text" name="id" class="hidden" id="" value="{{ $cashflow->idfinance }}">
+                                    <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Detail</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-
-
-        @if (isset($cashflowdetail))
-            {{-- Form Submit --}}
-        <h2 class=" text-[1.5vw] mt-[3vw]">Add New Cashflow</h2>
-        <form class="bg-white" action="/deletefinance" method="POST">
-            @csrf
-            <input type="text" name="id" class="hidden" id="" value="{{ $cashflow->idfinance }}">
-            <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] ">
-                <div class="h-[4vw] w-[25%]">
-                    <p class="text-[1vw] ">Cashflow</p>
-                    <input type="text" name="cashflow" value="{{ $cashflowdetail->cashflow }}" class="mt-[1vw] h-[2vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none">
-                </div>
-                <div class="h-[4vw] w-[15%]">
-                    <p class="text-[1vw] ">Total Price</p>
-                    <input type="text" name="total" value="{{ $cashflowdetail->total }}" class="mt-[1vw] h-[2vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none">
-                </div>
-                <div class="h-[4vw]">
-                    <p class="text-[1vw] ">Type</p>
-                    <select id="myDropdown" name="type" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
-                        <option value="{{ $cashflowdetail->Type }}">{{ $cashflowdetail->type }}</option>
-                    </select>
-                </div>
-                <div class="h-[4vw]">
-                    <p class="text-[1vw] ">Category</p>
-                    <select id="myDropdown" name="category" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
-                        <option value="{{ $cashflowdetail->Category }}">{{ $cashflowdetail->category }}</option>
-                    </select>
-                </div>
-            </div>
-            <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] justify-between relative">
-                <div class="">
-                    <p class="text-[1vw] ">Description</p>
-                    <textarea name="desc" id="" cols="30" rows="10" placeholder="Type Here..." class="mt-[1vw] h-[6vw] w-[40vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none" >{{ $cashflowdetail->desc }}</textarea>
-                </div>
-                <div class="h-f flex items-center justify-end absolute bottom-[2vw] right-[4vw]">
-                    <input type="text" name="id" value="{{ $cashflow->idfinance }}" hidden>
-                    <button class="flex ml-[2vw] w-[8vw] h-[2.3vw] items-center justify-center px-[1vw] rounded-[0.5vw] bg-red-400 text-white" onclick="return confirm('Are you sure to delete this data?')">
-                        <p class="text-[1vw]">Delete</p>
-                    </button>
-                </div>
-            </div>
-        </form>
-        @else
-            {{-- Form Submit --}}
-        <h2 class=" text-[1.5vw] mt-[3vw]">Add New Cashflow</h2>
-        <form class="bg-white" action="/addfinance" method="POST">
-            @csrf
-            <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] ">
-                <div class="h-[4vw] w-[25%]">
-                    <p class="text-[1vw] ">Cashflow</p>
-                    <input type="text" name="cashflow" placeholder="Type Here.." class="mt-[1vw] h-[2vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none">
-                </div>
-                <div class="h-[4vw] w-[15%]">
-                    <p class="text-[1vw] ">Total Price</p>
-                    <input type="text" name="total" placeholder="Ex: 250000" class="mt-[1vw] h-[2vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none">
-                </div>
-                <div class="h-[4vw]">
-                    <p class="text-[1vw] ">Type</p>
-                    <select id="myDropdown" name="type" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
-                        <option value="income">Income</option>
-                        <option value="outcome">Outcome</option>
-                    </select>
-                </div>
-                <div class="h-[4vw]">
-                    <p class="text-[1vw] ">Category</p>
-                    <select id="myDropdown" name="category" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
-                        <option value="others">Others</option>
-                    </select>
-                </div>
-            </div>
-            <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] justify-between relative">
-                <div class="">
-                    <p class="text-[1vw] ">Description</p>
-                    <textarea name="desc" id="" cols="30" rows="10" placeholder="Type Here..." class="mt-[1vw] h-[6vw] w-[40vw] pl-[1vw] border-l-[0.2vw] border-biru text-[0.9vw] outline-none" ></textarea>
-                </div>
-                <div class="h-f flex items-center justify-end absolute bottom-[2vw] right-[4vw]">
-                    <button class="flex ml-[2vw] w-[8vw] h-[3vw] border-[0.1vw] border-[#c2c2c2] items-center justify-between px-[1vw] rounded-[0.5vw] ">
-                        <p class="text-[0.9vw]">Add</p>
-                        <p class="text-[1.4vw] mt-[-0.3vw]">+</p>
-                    </button>
-                </div>
-            </div>
-        </form>
-        @endif
+        
         
 
         <div class="h-[10vw]"></div>

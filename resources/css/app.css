@@ -82,3 +82,21 @@
 .text-merah{
     color: #FF7373;
 }
+
+.active {
+    padding-left: 0.7vw;
+    font-size: 1.15vw;
+    margin-bottom: 1.5vw;
+    border-left-width: 0.25vw;
+    border-color: #546FFF; /* Replace 'yourBorderColor' with the actual color */
+    border-style: solid;
+    border-width: 1px; /* You can adjust the width as needed */
+    color: #546FFF; /* Replace 'yourTextColor' with the actual color */
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.selected{
+    border-left: 0.25vw solid #546FFF;
+    color: #141522;
+}

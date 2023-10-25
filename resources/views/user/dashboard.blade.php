@@ -56,14 +56,14 @@
             <h2 class=" text-[1.5vw]">Cashflow History</h2>
             <div class="flex">
                 <div class="w-[15vw] bg-[#F4F7FE] flex items-center px-[1vw] rounded-[1vw] h-[3vw]">
-                    <div class="flex">
-                        <img src="/image/icons/search.svg" class="w-[0.8vw]" alt="">
-                        <input type="text" placeholder="Search" class="ml-[1vw] bg-transparent text-[0.9vw] outline-none">
-                    </div>
+                    <form class="flex" action="/dashboard" method="get">
+                        @csrf
+                        <button>
+                            <img src="/image/icons/search.svg" class="w-[0.8vw]" alt="">
+                        </button>
+                        <input type="text" name="search" placeholder="Search" class="ml-[1vw] bg-transparent text-[0.9vw] outline-none" id="searchInput" value="<?php if(isset($searchTerm)) { echo $searchTerm; } ?>">
+                    </form>
                 </div>
-                <select name="" id="" class="text-[0.9vw] ml-[2vw] bg-transparent outline-none">
-                    <option value="week">This Week</option>
-                </select>
             </div>
         </div>
         <table class="w-full">
@@ -100,30 +100,31 @@
         <div class="w-full overflow-scroll max-h-[25vw] pb-[2vw] border-b-[0.02vw] border-[#bbc6e4]">
             <table class="mt-[2vw] w-full">
                 <tbody>
-                    @foreach ($cashflows as $item)                    
-                    <tr class="text-[0.9vw] h-[3vw]">
-                        <td class="w-[25.5%]">
-                            <p class="mx-[1vw]">{{ $item->cashflow }}</p>
-                        </td>
-                        <td class="w-[20%]">
-                            <p class="mx-[1vw]">{{ $item->type }}</p>
-                            
-                        </td>
-                        <td class="w-[20%]">
-                            <p class="mx-[1vw]">{{ $item->category }}</p>
-                        </td>
-                        <td class="w-[20%]">
-                            <p class="mx-[1vw]">{{ $item->total }}</p>
-                        </td>
-                        <td class="w-[17%]">
-                            <form action="/detailfinance" method="GET">
-                                @csrf
-                                <input type="text" name="id" class="hidden" id="" value="{{ $item->idfinance }}">
-                                <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Detail</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
+                    <div id="dataContainer">
+                        @foreach ($cashflows as $item)                    
+                        <tr class="text-[0.9vw] h-[3vw]" data-timestamp="{{ $item->created_at }}">
+                            <td class="w-[25.5%]">
+                                <p class="mx-[1vw]">{{ $item->cashflow }}</p>
+                            </td>
+                            <td class="w-[20%]">
+                                <p class="mx-[1vw]">{{ $item->type }}</p>
+                            </td>
+                            <td class="w-[20%]">
+                                <p class="mx-[1vw]">{{ $item->category }}</p>
+                            </td>
+                            <td class="w-[20%]">
+                                <p class="mx-[1vw]">{{ $item->total }}</p>
+                            </td>
+                            <td class="w-[17%]">
+                                <form action="/detailfinance" method="GET">
+                                    @csrf
+                                    <input type="text" name="id" class="hidden" id="" value="{{ $item->idfinance }}">
+                                    <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Detail</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </div>
                 </tbody>
             </table>
         </div>
@@ -166,7 +167,7 @@
                 Finances
                 <br>
                 <span class="text-[1.5vw] text-[#2B3674]">
-                    {{  $totalIncome - $totalOutcome }}
+                    {{  $totalmoney }}K
                 </span>
             </p>
             <p class="text-[0.8vw] text-[#A3AED0]">
@@ -175,5 +176,7 @@
         </div>
     </div>
   </div>
+
+  <script src="/js/userdashboard.js"></script>
 </body>
 </html>
