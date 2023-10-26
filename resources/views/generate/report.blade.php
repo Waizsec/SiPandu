@@ -16,7 +16,14 @@
         <p class="text-[0.9vw] font-thin">May 2023</p>
         <div class="flex items-center justify-center w-full mt-[5vw] flex-col">
             <img src="/image/icons/performance.svg" class="w-[70%]" alt="">
-            <p class="mt-[-6vw] flex text-[4vw] items-center">35% <span><img src="/image/icons/up.svg" class="w-[2.5vw] ml-[1vw]" alt=""></span></p>
+            <p class="mt-[-6vw] flex text-[4vw] items-center">{{ $totalImprovement }} <span>
+                @if ($totalImprovement > 0)
+                    <img src="/image/icons/up.svg" class="w-[2.5vw] ml-[1vw]" alt="">
+                @else
+                    <img src="/image/icons/down.svg" class="w-[2.5vw] ml-[1vw]" alt="">
+                @endif
+            
+            </span></p>
             <p class="text-[0.8vw]">Performance From Last Month</p>
         </div>
         <div class="w-full flex flex-col items-center justify-center border-t-[0.1vw] border-[#6b6b6b] mt-[3vw]">
@@ -54,12 +61,19 @@
                 <p class="text-[0.8vw] text-[#A3AED0]">
                     Finances
                     <br>
-                    <span class="text-[1.5vw] text-[#2B3674]">
-                        {{  $totalmoney }}
-                    </span>
+                    @if ($totalImprovement > 0)
+                        <span class="text-[1.5vw] text-green-400">
+                            {{  $totalmoney }}
+                        </span>
+                    @else
+                        <span class="text-[1.5vw] text-red-400">
+                            {{  $totalmoney }}
+                        </span>
+                    @endif
+                    
                 </p>
                 <p class="text-[0.8vw] text-[#A3AED0]">
-                    <span class="text-green-500">0%</span> since last month
+                    since last month
                 </p>
             </div>
         </div>
@@ -70,10 +84,12 @@
                     Total Customer
                     <br>
                     <span class="text-[1.5vw] text-[#2B3674]">
-                        121
+                        {{ $totalCustomer }}
                     </span>
                 </p>
             </div>
+
+            {{-- Customer Barchart --}}
             <h1 class="text-[1.5vw]">Customer Chart</h1>
             <div class="w-full mt-[4vw]">
                 <div class="w-full flex items-end">
@@ -86,42 +102,25 @@
                     <div class="w-full overflow-x-scroll">
                         <div class="overflow-x-scroll w-full">
                             <div class="w-[210vw] h-[25vw] flex items-end">
-                                <div class="h-[100%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[30%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[53%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[35%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[74%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[92%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[80%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[80%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[80%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[80%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[80%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[80%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[80%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[80%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[80%] w-[4vw] bg-biru mr-[3vw]"></div>
-                                <div class="h-[80%] w-[4vw] bg-biru mr-[3vw]"></div>
+                                @foreach ($dailyCustomerData as $day => $data)
+                                    <div class="w-[4vw] bg-biru mr-[3vw]" style="height : {{ $data['percentage'] }}%"></div>
+                                @endforeach
                             </div>
                             <div class="w-[210vw] h-[3vw] flex mt-[1vw] pt-[1vw] items-end border-t-[0.1vw] border-[#909090]">
-                                <div class="h-[100%] text-center w-[4vw] text-[0.9vw] mr-[3vw]">1</div>
-                                <div class="h-[100%] text-center w-[4vw] text-[0.9vw] mr-[3vw]">2</div>
-                                <div class="h-[100%] text-center w-[4vw] text-[0.9vw] mr-[3vw]">3</div>
-                                <div class="h-[100%] text-center w-[4vw] text-[0.9vw] mr-[3vw]">4</div>
-                                <div class="h-[100%] text-center w-[4vw] text-[0.9vw] mr-[3vw]">5</div>
-                                <div class="h-[100%] text-center w-[4vw] text-[0.9vw] mr-[3vw]">6</div>
-                                <div class="h-[100%] text-center w-[4vw] text-[0.9vw] mr-[3vw]">7</div>
-                                <div class="h-[100%] text-center w-[4vw] text-[0.9vw] mr-[3vw]">8</div>
-                                <div class="h-[100%] text-center w-[4vw] text-[0.9vw] mr-[3vw]">9</div>
-                                <div class="h-[100%] text-center w-[4vw] text-[0.9vw] mr-[3vw]">10</div>
+                                @foreach ($dailyCustomerData as $day)
+                                    <div class="h-[100%] text-center w-[4vw] text-[0.9vw] mr-[3vw]">
+                                        {{ $day['day'] }}
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
-                        <p class="w-full text-[0.9vw] text-center mt-[-1vw]">May 2023</p>
+                        <p class="w-full text-[0.9vw] text-center mt-[-1vw]">{{ date('F', strtotime("{$requestedYear}-{$requestedMonth}-01")) }} - {{ $requestedYear }}</p>
                     </div>
-                    
                 </div>
             </div>
         </div>
+        {{-- END BARCHART --}}
+
     </div>
    </div>
 </body>

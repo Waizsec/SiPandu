@@ -138,13 +138,34 @@
                 </div>
             </div>
         </form>
-        <h2 class=" text-[1.5vw] mt-[1vw]">Generate Report</h2>
-        <div class="w-full flex justify-end px-[2vw] py-[2vw] bg-white mt-[2vw] rounded-[0.3vw] items-center">
-            <p class="mx-[1vw] text-[1vw]">From : </p>
-            <input type="date" class="mr-[1vw] text-biru" name="from" id="">
-            <p class="mx-[1vw] text-[1vw]">To : </p>
-            <input type="date" class="mr-[1vw] text-biru" name="to" id="">
-            <a href="/generate/report" class="bg-biru text-[1vw] px-[3vw] py-[0.6vw] rounded-[0.2vw] text-white ml-[2vw]">Generate!</a>
+
+        {{-- Generate Report --}}
+        <div class="w-full flex px-[2vw] py-[2vw] bg-white rounded-[0.3vw] items-center justify-between mt-[2vw]">
+            <h2 class=" text-[1.5vw] text-biru">Generate Report</h2>
+            <form action="/generate/report" method="get" class="flex items-center h-full ">
+                <p class="mx-[1vw] text-[1vw]">Month : </p>
+                <select name="month" id="month" class="text-[1vw] outline-none">
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+
+                <p class="mx-[1vw] ml-[4vw] text-[1vw]">Year : </p>
+                <select name="year" id="year" class="mr-[4vw] text-[1vw] outline-none">
+                    <option value="2023">2023</option>
+                </select>
+                <button  class="bg-biru text-[1vw] px-[3vw] py-[0.6vw] rounded-[0.2vw] text-white ml-[2vw] ">Generate!</button>
+            </form>
+            
         </div>
         @endif
 
