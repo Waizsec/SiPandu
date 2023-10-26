@@ -56,7 +56,8 @@ Route::post('/cashier/invoice/reset', [UserController::class, 'resetCart']);
 Route::post('/cashier/invoice/create', [InvoiceController::class, 'createInvoice']);
 
 // Invoice 
-
+Route::post('/invoice/delete', [InvoiceController::class, 'deleteInvoice']);
+Route::get('/invoice/detail', [InvoiceController::class, 'showDetail']);
 
 // stock
 Route::get('/stock/dashboard', [UserController::class, 'showStock']);

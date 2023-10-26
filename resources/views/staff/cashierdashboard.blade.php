@@ -140,7 +140,7 @@
                         </p>    
                     @endif
                     <div class="flex w-full justify-end">
-                        <form action="/cashier/invoice/reset" method="post" onclick="return confirm('Yakin untuk mereset invoice ini?')">
+                        <form action="/cashier/invoice/reset" method="post" onclick="return confirm('Are you sure to reset this invoice?')">
                             @csrf
                             <input type="submit" value="Reset" class="self-end mt-[4vw] text-[0.9vw] text-white bg-red-400 h-[2.6vw] w-[6vw] mr-[1vw] rounded-[0.3vw] cursor-pointer">
                         </form>

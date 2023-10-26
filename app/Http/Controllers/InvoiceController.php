@@ -58,4 +58,21 @@ class InvoiceController extends Controller
     }
     // dd($request->total);
   }
+
+  public function deleteInvoice(Request $request) {
+    $invoiceDeleted = DB::table('invoices')->where('id', $request->id)->delete();
+    if ($invoiceDeleted) {
+        DB::table('cashflows')->where('invoiceid', $request->id)->delete();    
+    } 
+    return redirect()->to('/cashier/history');
+  } 
+
+  public function showDetail(Request $request){
+    $invoiceid = $request->id;
+    $invoice = Invoice::where('id', $invoiceid)->first();
+    $invoiceItems = Invoicedetail::where('invoiceid', $invoiceid)->get();
+
+    // dd($invoice);
+    return view('/generate/invoice', compact('invoice', 'invoiceItems'));
+  }
 }

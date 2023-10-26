@@ -118,7 +118,7 @@
                             <td class="w-[17%]">
                                 <form action="/detailfinance" method="GET">
                                     @csrf
-                                    <input type="text" name="id" class="hidden" id="" value="{{ $item->idfinance }}">
+                                    <input type="text" name="id" class="hidden" id="" value="{{ $item->id }}">
                                     <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Detail</button>
                                 </form>
                             </td>

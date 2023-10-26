@@ -89,9 +89,10 @@
                             </td>
                             <td class="w-[17%]">
                                 <div class="flex">
-                                    <form action="/invoice/delete" method="get">
+                                    <form action="/invoice/delete" method="post">
+                                        @csrf
                                         <input type="number" name="id" value="{{ $item->id }}" hidden>
-                                        <button class="w-[6vw] h-[2.3vw] mx-[0.2vw] rounded-[0.3vw] bg-red-400 hover:bg-[#d76c6c] duration-700 ease text-white">Delete</button>
+                                        <button class="w-[6vw] h-[2.3vw] mx-[0.2vw] rounded-[0.3vw] bg-red-400 hover:bg-[#d76c6c] duration-700 ease text-white" onclick="return confirm('Are you sure to delete this invoice?')">Delete</button>
                                     </form>
                                     <form action="/invoice/detail" method="get">
                                         <input type="number" name="id" value="{{ $item->id }}" hidden>

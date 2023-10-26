@@ -138,6 +138,14 @@
                 </div>
             </div>
         </form>
+        <h2 class=" text-[1.5vw] mt-[1vw]">Generate Report</h2>
+        <div class="w-full flex justify-end px-[2vw] py-[2vw] bg-white mt-[2vw] rounded-[0.3vw] items-center">
+            <p class="mx-[1vw] text-[1vw]">From : </p>
+            <input type="date" class="mr-[1vw] text-biru" name="from" id="">
+            <p class="mx-[1vw] text-[1vw]">To : </p>
+            <input type="date" class="mr-[1vw] text-biru" name="to" id="">
+            <a href="" class="bg-biru text-[1vw] px-[3vw] py-[0.6vw] rounded-[0.2vw] text-white ml-[2vw]">Generate!</a>
+        </div>
         @endif
 
         {{-- Content 1 - Table --}}
