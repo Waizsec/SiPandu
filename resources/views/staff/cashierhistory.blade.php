@@ -65,12 +65,6 @@
                     </th>
                     <th class="w-[20%]">
                         <div class="flex items-center font-normal text-start">
-                            <p class="mx-[1vw]">Items Quantity</p>
-                            <img src="/image/icons/dropdown.svg" class="w-[0.8vw]" alt="">
-                        </div>
-                    </th>
-                    <th class="w-[20%]">
-                        <div class="flex items-center font-normal text-start">
                             <p class="mx-[1vw]">Date</p>
                             <img src="/image/icons/dropdown.svg" class="w-[0.8vw]" alt="">
                         </div>
@@ -82,25 +76,31 @@
         <div class="w-full overflow-scroll max-h-[25vw] pb-[2vw] border-b-[0.02vw] border-[#bbc6e4]">
             <table class="mt-[2vw] w-full">
                 <tbody>
-                    <tr class="text-[0.9vw] h-[3vw]">
-                        <td class="w-[25.5%]">
-                            <p class="mx-[1vw]">Baju Kaos Item</p>
-                        </td>
-                        <td class="w-[20%]">
-                            <p class="mx-[1vw]">Sell Price</p>
-                            
-                        </td>
-                        <td class="w-[20%]">
-                            <p class="mx-[1vw]">Buy Price</p>
-                        </td>
-                        <td class="w-[20%]">
-                            <p class="mx-[1vw]">Stock</p>
-                        </td>
-                        <td class="w-[17%]">
-                            <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Detail</button>
-                        </td>
-                    </tr>
-                    
+                    @foreach ($invoices as $item)
+                        <tr class="text-[0.9vw] h-[3vw]">
+                            <td class="w-[25.5%]">
+                                <p class="mx-[1vw]">{{ $item->custname }}</p>
+                            </td>
+                            <td class="w-[20%]">
+                                <p class="mx-[1vw]">IDR {{ number_format($item->total) }}</p>                                
+                            </td>
+                            <td class="w-[20%]">
+                                <p class="mx-[1vw]">{{ $item->created_at }}</p>
+                            </td>
+                            <td class="w-[17%]">
+                                <div class="flex">
+                                    <form action="/invoice/delete" method="get">
+                                        <input type="number" name="id" value="{{ $item->id }}" hidden>
+                                        <button class="w-[6vw] h-[2.3vw] mx-[0.2vw] rounded-[0.3vw] bg-red-400 hover:bg-[#d76c6c] duration-700 ease text-white">Delete</button>
+                                    </form>
+                                    <form action="/invoice/detail" method="get">
+                                        <input type="number" name="id" value="{{ $item->id }}" hidden>
+                                        <button class="w-[6vw] h-[2.3vw] mx-[0.2vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Detail</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

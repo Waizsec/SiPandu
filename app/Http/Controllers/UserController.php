@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cashflows;
+use App\Models\Invoice;
+use App\Models\Invoicedetail;
 use App\Models\Stocks;
 use App\Models\User;
 use App\Models\Usertokens;
@@ -19,14 +21,9 @@ class UserController extends Controller
         $totalOutcome = $cashflows->where('type', 'outcome')->sum('total');
         session(['username' => Auth::user()->name]);
 
-        $calculation = $totalIncome - $totalOutcome;
-        if ($calculation < 0) {
-            $totalmoney = '-';
-        } elseif ($calculation >= 1000000) { 
-            $totalmoney = floor($calculation / 1000); 
-        } else {
-            $totalmoney = $calculation; 
-        }
+        $totalmoney = number_format($totalIncome - $totalOutcome, 0);
+        $totalIncome = number_format($totalIncome, 0);
+        $totalOutcome = number_format($totalOutcome, 0);
     
         if (isset($request->search)) {
             $searchTerm = $request->search;
@@ -115,22 +112,42 @@ class UserController extends Controller
         }
     }
     
-    public function showCashier(){
-
+    public function showCashier(Request $request){
         if (session('tokens') != null) {
             $tokens = session('tokens');
             $user = Usertokens::where('tokens', $tokens)->where('role', 'cashier')->first();
             
             if ($user) {
                 $userId = $user->userid;
-                
                 $username = User::where('id', $userId)->value('name');
                 if ($username) {
                     session(['username' => $username]);
                     session(['userid' => $userId]);
                     $stocks = Stocks::where('iduser', $userId)->get();
                     $types = Stocks::where('iduser', $userId)->distinct()->pluck('type')->unique()->all();
-                    return view('/staff/cashierdashboard', compact('stocks', 'types'));
+                    if(session()->has('cart')) { 
+                        $cart = session('cart'); 
+                        $totalPrice = 0;
+                        foreach ($cart as $item) {
+                            $stock = Stocks::where('stockid', $item['id'])->first(); 
+                            if ($stock) {
+                                $cartItem = [
+                                    'id' => $stock->stockid,
+                                    'items' => $stock->items,
+                                    'amount' => $item['amount'],
+                                    'prices' => number_format($stock->sell_price, 2, '.', ','), 
+                                    'total' => number_format($stock->sell_price * $item['amount'], 2, '.', ',') 
+                                ];                                
+                                $carts[] = $cartItem;
+                                $totalPrice += ($stock->sell_price * $item['amount']);
+                            }
+                        }
+                        $plainTotalPrice = $totalPrice;
+                        $totalPrice = number_format($totalPrice, 2, '.', ',');
+                        return view('/staff/cashierdashboard', compact('stocks', 'types', 'carts', 'totalPrice', 'plainTotalPrice'));
+                    }else{
+                        return view('/staff/cashierdashboard', compact('stocks', 'types'));
+                    }
                 }
             }else{
                 return redirect('/staff/login');
@@ -138,6 +155,39 @@ class UserController extends Controller
         }else{
             return redirect('/staff/login');
         }
-        
+    }
+
+    public function ShowCashierHistory(){
+        $invoices = Invoice::where('iduser', session('userid'))->get();
+        return view('staff/cashierhistory', compact('invoices'));
+    }
+
+    public function updateCart(Request $request){
+        if ($request->has(['amount', 'id'])) { 
+            $cartItem = ['id' => $request->id, 'amount' => $request->amount]; 
+            if (session()->has('cart')) { 
+                $cart = session('cart'); 
+                $itemIndex = array_search($request->id, array_column($cart, 'id')); 
+                if ($itemIndex !== false) { 
+                    $cart[$itemIndex]['amount'] += $request->amount;
+                    session()->forget('cart');
+                    session(['cart' => $cart]);
+                    return redirect()->to('cashier/dashboard');
+                }else{ 
+                    $cart[] = $cartItem; 
+                    session(['cart' => $cart]); 
+                    return redirect()->to('cashier/dashboard');
+                }
+            }else{ 
+                session(['cart' => [$cartItem]]);  
+                return redirect()->to('cashier/dashboard');
+            }
+        }
+    }
+
+    public function resetCart(){
+        session()->forget('cart');
+        return redirect()->to('/cashier/dashboard');
     }
 }
+

@@ -113,7 +113,7 @@
                                 <p class="mx-[1vw]">{{ $item->category }}</p>
                             </td>
                             <td class="w-[20%]">
-                                <p class="mx-[1vw]">{{ $item->total }}</p>
+                                <p class="mx-[1vw]">{{ number_format($item->total, 0) }}</p>
                             </td>
                             <td class="w-[17%]">
                                 <form action="/detailfinance" method="GET">
@@ -167,7 +167,7 @@
                 Finances
                 <br>
                 <span class="text-[1.5vw] text-[#2B3674]">
-                    {{  $totalmoney }}K
+                    {{  $totalmoney }}
                 </span>
             </p>
             <p class="text-[0.8vw] text-[#A3AED0]">

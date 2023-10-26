@@ -29,8 +29,8 @@ class StocksController extends Controller
 
     public function detail(Request $request)
     {
-        $stocks = Stocks::where('iduser', Auth::id())->get();
-        $types = Stocks::where('iduser', Auth::id())->distinct()->pluck('type')->unique()->all();
+        $stocks = Stocks::where('iduser', session('userid'))->get();
+        $types = Stocks::where('iduser', session('userid'))->distinct()->pluck('type')->unique()->all();
         $stockdetail = Stocks::where('stockid', $request->id)->first();
         return view('staff/stockdashboard', compact('stocks', 'stockdetail', 'types')); 
         

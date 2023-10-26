@@ -27,13 +27,13 @@ class CashflowsController extends Controller
     public function detail(Request $request)
     {
         $cashflows = Cashflows::where('iduser', Auth::id())->get();
-        $cashflowdetail = Cashflows::where('idFinance', $request->id)->first();
+        $cashflowdetail = Cashflows::where('id', $request->id)->first();
         return view('user/finance', compact('cashflows', 'cashflowdetail')); 
         
     }
 
     public function delete(Request $request){
-        $status = DB::table('cashflows')->where('IdFinance', $request->id)->delete();
+        $status = DB::table('cashflows')->where('id', $request->id)->delete();
         return redirect('/finance');
     }
 
@@ -41,7 +41,7 @@ class CashflowsController extends Controller
         $id = $request->id;
     
         $affected = DB::table('cashflows')
-            ->where('idfinance', $id)
+            ->where('id', $id)
             ->update([
                 'cashflow' => $request->cashflow,
                 'type' => $request->type,

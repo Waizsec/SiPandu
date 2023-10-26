@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CashflowsController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\StocksController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -49,9 +50,13 @@ Route::get('/setting', [UserController::class, 'showSetting'])->middleware('auth
 // STAFF ROUTE
 // Cashier
 Route::get('/cashier/dashboard', [UserController::class, 'showCashier']);
-Route::get('/cashier/history', function () {
-    return view('staff/cashierhistory');
-});
+Route::get('/cashier/history', [UserController::class, 'ShowCashierHistory']);
+Route::post('/cashier/dashboard/add', [UserController::class, 'updateCart']);
+Route::post('/cashier/invoice/reset', [UserController::class, 'resetCart']);
+Route::post('/cashier/invoice/create', [InvoiceController::class, 'createInvoice']);
+
+// Invoice 
+
 
 // stock
 Route::get('/stock/dashboard', [UserController::class, 'showStock']);

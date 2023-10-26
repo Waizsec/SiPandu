@@ -20,3 +20,13 @@ $(document).ready(function() {
          }
     });
 });
+
+
+$(document).ready(function() {
+    // Listen for changes in the visible input
+    $("#customerName").on("input", function() {
+      // Update the value of the hidden input
+      $("#custname").val($(this).val());
+    });
+  });
+

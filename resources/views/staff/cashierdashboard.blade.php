@@ -66,17 +66,42 @@
                     </div>
                     <div class="max-h-[65vh] overflow-scroll" id="item-list">
                         @foreach ($stocks as $stock)
-                            <div class="w-[28vw] bg-white rounded-[0.8vw] mb-[1vw] flex py-[1vw] px-[1vw] justify-between items-center item" data-type="{{ $stock->type }}">
-                                <p class="text-[1vw] text-third">{{ $stock->items }}
-                                    <br><span class="text-[0.8vw] text-[#535353]">{{ $stock->sell_price }}</span>
-                                </p>
-                                <div class="flex h-[4vw] items-center justify-start">
-                                    <button class="add-button text-[1.2vw]" data-id="{{ $stock->id }}">-</button>
-                                    <p class="mx-[1.2vw] text-[0.9vw] mt-[0.2vw]">0</p>
-                                    <button class="add-button text-[1.2vw]" data-id="{{ $stock->id }}">+</button>
-                                </div>
-                                <button class="bg-biru w-[4vw] h-[2vw] text-white text-[0.9vw] rounded-[0.1vw] add-button" data-id="{{ $stock->id }}">Add</button>
-                            </div>
+                            @if ($stock->stock >= 1)
+                                <form action="/cashier/dashboard/add" method="post" class="w-[28vw] bg-white rounded-[0.8vw] mb-[1vw] flex py-[1vw] px-[1.2vw] justify-between items-center item" data-type="{{ $stock->type }}">
+                                    @csrf
+                                    <p class="text-[1vw] text-third w-[30%]">{{ $stock->items }}
+                                        <br><span class="text-[0.8vw] text-[#535353]">{{ number_format($stock->sell_price) }}</span>
+                                    </p>
+                                    <div class="flex h-[4vw] items-center justify-start">
+                                        @if (session()->has('cart'))
+                                            @php
+                                            $cart = session('cart');
+                                            $itemInCart = false;
+                                            $cartAmount = 0;
+                                        
+                                            foreach ($cart as $item) {
+                                                if ($item['id'] == $stock->stockid) {
+                                                    $itemInCart = true;
+                                                    $cartAmount = $item['amount'];
+                                                    break;
+                                                }
+                                            }
+                                            @endphp
+                                        
+                                            <input type="number" class="outline-none w-[2vw] text-[1vw]" name="amount" id="myNumber" value="0" 
+                                                max="{{ $stock->stock - $cartAmount }}" min="0" oninput="this.setCustomValidity(this.validity.valueMissing ? 'Please enter an amount' : 
+                                                this.validity.rangeOverflow ? 'not enought stock' : '');" required>
+                                        @else
+                                            <input type="number" class="outline-none w-[2vw] text-[1vw]" name="amount" id="myNumber" value="0" 
+                                                max="{{ $stock->stock }}" 
+                                                oninput="this.setCustomValidity(this.validity.valueMissing ? 'Please enter an amount' : 
+                                                this.validity.rangeOverflow ? 'not enought stock' : '');" min="0" required>
+                                        @endif
+                                    </div>
+                                    <input type="text" name="id" value="{{ $stock->stockid }}" hidden>
+                                    <button class="bg-biru w-[4vw] h-[2vw] text-white text-[0.9vw] rounded-[0.1vw] add-button">Add</button>
+                                </form>
+                            @endif
                         @endforeach
                     </div>                    
                 </div>                
@@ -86,21 +111,50 @@
             <div class="w-[50%]">
                 <h1 class="text-[1.8vw]">Invoice Preview</h1>
                 <div class="w-full min-h-[30vh] bg-white mt-[2vw] py-[2vw] px-[2vw] flex flex-col">
-                    <input type="text" id="customerName" placeholder="Cust Name" class="text-[1.1vw] pl-[0.6vw] border-l-[0.2vw] border-biru outline-none">
+                    <input type="text" id="customerName" placeholder="Cust Name" class="text-[1.1vw] pl-[0.6vw] border-l-[0.2vw] border-biru outline-none" required>
                     <table class="w-full border-collapse mt-[2vw]" id="invoiceTable">
                         <thead>
-                            <tr class="border-b-[0.1vw] border-[#b0b0b0] h-[4vw]">
+                            <tr class=" h-[4vw]">
                                 <th class="text-[1vw] text-start font-normal">Items</th>
-                                <th class="text-[1vw] text-start font-normal">Quantity</th>
-                                <th class="text-[1vw] text-start font-normal">Prices</th>
-                                <th class="text-[1vw] text-start font-normal">Total</th>
+                                <th class="text-[1vw] text-center font-normal">Quantity</th>
+                                <th class="text-[1vw] text-center font-normal">Prices</th>
+                                <th class="text-[1vw] text-center font-normal">Total</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Rows for invoice items will be dynamically added here -->
+                            @if (isset($carts))
+                                @foreach ($carts as $item)
+                                    <tr class="h-[2vw]">
+                                        <td class="text-[1vw] text-start font-normal">{{ $item['items'] }}</td>
+                                        <td class="text-[1vw] text-center font-normal">{{ $item['amount'] }}</td>
+                                        <td class="text-[1vw] text-center font-normal">{{ $item['prices'] }}</td>
+                                        <td class="text-[1vw] text-center font-normal">{{ $item['total'] }}</td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
-                    <input type="submit" id="confirmInvoice" value="Confirm Invoice" class="self-end mt-[4vw] text-[0.9vw] text-white bg-biru h-[2.6vw] w-[10vw] rounded-[0.3vw] cursor-pointer">
+                    @if (isset($totalPrice))
+                        <p class="text-[1vw] text-biru mt-[2vw]">
+                            Total Price : {{ $totalPrice }}
+                        </p>    
+                    @endif
+                    <div class="flex w-full justify-end">
+                        <form action="/cashier/invoice/reset" method="post" onclick="return confirm('Yakin untuk mereset invoice ini?')">
+                            @csrf
+                            <input type="submit" value="Reset" class="self-end mt-[4vw] text-[0.9vw] text-white bg-red-400 h-[2.6vw] w-[6vw] mr-[1vw] rounded-[0.3vw] cursor-pointer">
+                        </form>
+                        <form action="/cashier/invoice/create" method="post">
+                            @csrf
+                            <input type="text" name="custname" value="" id="custname" hidden>
+                            @if (isset($plainTotalPrice))
+                                <input type="number" name="total" value="{{ $plainTotalPrice }}" id="custname" hidden>   
+                            @else
+                                <input type="number" name="total" value="0" id="custname" hidden>   
+                            @endif
+                            <input type="submit" value="Confirm Invoice" class="self-end mt-[4vw] text-[0.9vw] text-white bg-biru h-[2.6vw] w-[8vw] rounded-[0.3vw] cursor-pointer">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -48,7 +48,7 @@
         <div class="relative">
             <form class="bg-white" action="/updatefinance" method="POST">
                 @csrf
-                <input type="text" name="id" class="hidden" id="id" value="{{ $cashflowdetail->idfinance }}">
+                <input type="text" name="id" class="hidden" id="id" value="{{ $cashflowdetail->id }}">
                 <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] ">
                     <div class="h-[4vw] w-[25%]">
                         <p class="text-[1vw] ">Cashflow</p>
@@ -91,7 +91,7 @@
             </a>
             <form action="/deletefinance" method="post" class="absolute bottom-[2vw] right-[13vw]">
                 @csrf
-                <input type="text" name="id" value="{{ $cashflowdetail->idfinance }}" hidden>
+                <input type="text" name="id" value="{{ $cashflowdetail->id }}" hidden>
                 <button class="flex ml-[2vw] w-[8vw] h-[2.3vw] items-center justify-center px-[1vw] rounded-[0.5vw] bg-red-400 text-white" onclick="return confirm('Are you sure to delete this data?')">
                     <p class="text-[1vw]">Delete</p>
                 </button>
@@ -218,7 +218,7 @@
                                 <p class="mx-[1vw]">{{ $cashflow->category }}</p>
                             </td>
                             <td class="w-[12.5%]">
-                                <p class="ml-[1.3vw]">{{ $cashflow->total }}</p>
+                                <p class="ml-[1.3vw]">{{ number_format($cashflow->total) }}</p>
                             </td>
                             <td class="w-[25%]">
                                 <p class="ml-[1.6vw] truncate-text">
@@ -229,7 +229,7 @@
                             <td class="w-[10%]">
                                 <form action="/detailfinance" method="GET">
                                     @csrf
-                                    <input type="text" name="id" class="hidden" id="" value="{{ $cashflow->idfinance }}">
+                                    <input type="text" name="id" class="hidden" id="" value="{{ $cashflow->id }}">
                                     <button class="w-[8vw] h-[2.3vw] rounded-[0.3vw] bg-biru hover:bg-[#4153b5] duration-700 ease text-white">Detail</button>
                                 </form>
                             </td>
