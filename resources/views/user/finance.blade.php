@@ -144,7 +144,7 @@
             <input type="date" class="mr-[1vw] text-biru" name="from" id="">
             <p class="mx-[1vw] text-[1vw]">To : </p>
             <input type="date" class="mr-[1vw] text-biru" name="to" id="">
-            <a href="" class="bg-biru text-[1vw] px-[3vw] py-[0.6vw] rounded-[0.2vw] text-white ml-[2vw]">Generate!</a>
+            <a href="/generate/report" class="bg-biru text-[1vw] px-[3vw] py-[0.6vw] rounded-[0.2vw] text-white ml-[2vw]">Generate!</a>
         </div>
         @endif
 

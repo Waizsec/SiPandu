@@ -152,16 +152,6 @@
                 </span>
             </p>
         </div>
-        {{-- <div class="flex mb-[2vw] w-full">
-            <img src="/image/icons/customer.svg" alt="">
-            <p class="ml-[2vw] text-[0.8vw] text-[#A3AED0]">
-                Total Customer
-                <br>
-                <span class="text-[1.5vw] text-[#2B3674]">
-                    121
-                </span>
-            </p>
-        </div> --}}
         <div class="flex flex-col mb-[2vw] justify-start w-full ml-[3vw]">
             <p class="text-[0.8vw] text-[#A3AED0]">
                 Finances

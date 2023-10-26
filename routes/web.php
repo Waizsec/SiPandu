@@ -42,6 +42,9 @@ Route::get('/detailfinance', [CashflowsController::class, 'detail']);
 Route::post('/deletefinance', [CashflowsController::class, 'delete']);
 Route::post('/updatefinance', [CashflowsController::class, 'update']);
 
+// Report
+Route::get('/generate/report', [CashflowsController::class, 'generateReport']);
+
 // Setting
 Route::get('/setting', [UserController::class, 'showSetting'])->middleware('auth');
 

@@ -56,5 +56,17 @@ class CashflowsController extends Controller
             return redirect('/finance');
         }
     }
+
+    public function generateReport(Request $request){
+        $cashflows = Cashflows::where('iduser', Auth::id())->get();
+        $totalIncome = $cashflows->where('type', 'income')->sum('total');
+        $totalOutcome = $cashflows->where('type', 'outcome')->sum('total');
+        session(['username' => Auth::user()->name]);
+
+        $totalmoney = number_format($totalIncome - $totalOutcome, 0);
+        $totalIncome = number_format($totalIncome, 0);
+        $totalOutcome = number_format($totalOutcome, 0);
+        return view('/generate/report', compact('cashflows', 'totalIncome', 'totalOutcome', 'totalmoney'));
+    }
     
 }
