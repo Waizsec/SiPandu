@@ -43,6 +43,7 @@ class UserController extends Controller
     public function showFinance(Request $request)
     {
         $cashflows = Cashflows::where('iduser', Auth::id())->get();
+        $types = Cashflows::where('iduser',Auth::id())->distinct()->pluck('category')->unique()->all();
         if (isset($request->search)) {
             $searchTerm = $request->search;
             $cashflows = $cashflows->filter(function($cashflow) use ($searchTerm) {
@@ -50,9 +51,9 @@ class UserController extends Controller
                     || str_contains(strtolower($cashflow->type), strtolower($searchTerm))
                     || str_contains(strtolower($cashflow->category), strtolower($searchTerm));
             });
-            return view('user/finance', compact('cashflows', 'searchTerm'));
+            return view('user/finance', compact('cashflows', 'searchTerm', 'types'));
         }else{
-            return view('user/finance', compact('cashflows'));
+            return view('user/finance', compact('cashflows', 'types'));
         }
     }
     
@@ -144,9 +145,29 @@ class UserController extends Controller
                         }
                         $plainTotalPrice = $totalPrice;
                         $totalPrice = number_format($totalPrice, 2, '.', ',');
-                        return view('/staff/cashierdashboard', compact('stocks', 'types', 'carts', 'totalPrice', 'plainTotalPrice'));
+                        
+                        if (isset($request->search)) {
+                            $searchTerm = $request->search;
+                            $stocks = $stocks->filter(function($stocks) use ($searchTerm) {
+                                return str_contains(strtolower($stocks->items), strtolower($searchTerm))
+                                    || str_contains(strtolower($stocks->type), strtolower($searchTerm));
+                            });
+                            return view('/staff/cashierdashboard', compact('stocks', 'types', 'carts', 'totalPrice', 'plainTotalPrice', 'searchTerm'));
+                        }else{
+                            return view('/staff/cashierdashboard', compact('stocks', 'types', 'carts', 'totalPrice', 'plainTotalPrice'));
+                        }
                     }else{
-                        return view('/staff/cashierdashboard', compact('stocks', 'types'));
+                        if (isset($request->search)) {
+                            $searchTerm = $request->search;
+                            $stocks = $stocks->filter(function($stocks) use ($searchTerm) {
+                                return str_contains(strtolower($stocks->items), strtolower($searchTerm))
+                                    || str_contains(strtolower($stocks->type), strtolower($searchTerm));
+                            });
+                            return view('/staff/cashierdashboard', compact('stocks', 'types', 'searchTerm'));
+                        }else{
+                            return view('/staff/cashierdashboard', compact('stocks', 'types'));
+                        }
+                        
                     }
                 }
             }else{
@@ -157,9 +178,18 @@ class UserController extends Controller
         }
     }
 
-    public function ShowCashierHistory(){
+    public function ShowCashierHistory(Request $request){
         $invoices = Invoice::where('iduser', session('userid'))->get();
-        return view('staff/cashierhistory', compact('invoices'));
+        if (isset($request->search)) {
+            $searchTerm = $request->search;
+            $invoices = $invoices->filter(function($invoices) use ($searchTerm) {
+                return str_contains(strtolower($invoices->custname), strtolower($searchTerm))
+                    || str_contains(strtolower($invoices->total), strtolower($searchTerm));
+            });
+            return view('staff/cashierhistory', compact('invoices',  'searchTerm'));
+        }else{
+            return view('staff/cashierhistory', compact('invoices'));
+        }
     }
 
     public function updateCart(Request $request){

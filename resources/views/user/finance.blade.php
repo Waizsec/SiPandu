@@ -66,9 +66,16 @@
                     </div>
                     <div class="h-[4vw]">
                         <p class="text-[1vw] ">Category</p>
-                        <select id="myDropdown" name="category" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
-                            <option value="{{ $cashflowdetail->category }}">{{ $cashflowdetail->category }}</option>
-                        </select>
+                        <div class="flex">
+                            <select id="types" name="category" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[10vw] h-[3vw] outline-none cursor-pointer" onchange="toggleCustomInput()">
+                                <option value="{{ $cashflowdetail->category }}">{{ $cashflowdetail->category }}</option>
+                                @foreach ($types as $type)
+                                <option value="{{ $type }}">{{ $type }}</option>
+                                @endforeach
+                                <option value="others">Others</option>
+                            </select>
+                            <input type="text" name="customtype" id="customtype" class="ml-[1vw] pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[10vw] h-[3vw] outline-none cursor-pointer" placeholder="Custom Items Type">                        
+                        </div>
                     </div>
                 </div>
                 <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] justify-between relative">
@@ -120,9 +127,15 @@
                 </div>
                 <div class="h-[4vw]">
                     <p class="text-[1vw] ">Category</p>
-                    <select id="myDropdown" name="category" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[15vw] mr-[3vw] h-[3vw] outline-none cursor-pointer">
-                        <option value="others">Others</option>
-                    </select>
+                    <div class="flex">
+                        <select id="types" name="category" class="pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[10vw] h-[3vw] outline-none cursor-pointer" onchange="toggleCustomInput()">
+                            @foreach ($types as $type)
+                            <option value="{{ $type }}">{{ $type }}</option>
+                            @endforeach
+                            <option value="others">Others</option>
+                        </select>
+                        <input type="text" name="customtype" id="customtype" class="ml-[1vw] pl-[0.3vw] mt-[0.2vw] rounded-[0.3vw] text-[0.8vw] border-[0.3px] border-[#e5e5e5] w-[10vw] h-[3vw] outline-none cursor-pointer" placeholder="Custom Items Type">                        
+                    </div>
                 </div>
             </div>
             <div class="flex w-full mt-[1vw] rounded-[0.5vw] px-[2vw] py-[2vw] justify-between relative">
@@ -163,7 +176,7 @@
                 <select name="year" id="year" class="mr-[4vw] text-[1vw] outline-none">
                     <option value="2023">2023</option>
                 </select>
-                <button  class="bg-biru text-[1vw] px-[3vw] py-[0.6vw] rounded-[0.2vw] text-white ml-[2vw] ">Generate!</button>
+                <button  class="bg-biru text-[1vw] px-[3vw] py-[0.6vw] rounded-[0.2vw] text-white ml-[2vw] ">Generate</button>
             </form>
             
         </div>
@@ -268,13 +281,23 @@
                 </table>
             </div>
         </div>
-        
-        
-
         <div class="h-[10vw]"></div>
     </div>
-
   </div>
+
+  <script>
+    function toggleCustomInput() {
+        const select = document.getElementById("types");
+        const customInput = document.getElementById("customtype");
+
+        if (select.value === "others") {
+            customInput.style.display = "block";
+        } else {
+            customInput.style.display = "none"; 
+        }
+    }
+    toggleCustomInput();
+  </script>
 </body>
 </html>
 

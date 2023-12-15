@@ -15,7 +15,11 @@ class CashflowsController extends Controller
         $cashflow = new Cashflows();
         $cashflow->cashflow = $request->cashflow;
         $cashflow->type = $request->type;
-        $cashflow->category = $request->category;
+        if ($request->category == 'others') {
+            $cashflow->category = ucfirst($request->customtype);
+        }else{
+            $cashflow->category = ucfirst($request->category);
+        }
         $cashflow->total = $request->total;
         $cashflow->desc = $request->desc;
         $cashflow->iduser = Auth::id(); 
@@ -29,7 +33,8 @@ class CashflowsController extends Controller
     {
         $cashflows = Cashflows::where('iduser', Auth::id())->get();
         $cashflowdetail = Cashflows::where('id', $request->id)->first();
-        return view('user/finance', compact('cashflows', 'cashflowdetail')); 
+        $types = Cashflows::where('iduser',Auth::id())->where('category', '!=', $cashflowdetail->category)->distinct()->pluck('category')->unique()->all();
+        return view('user/finance', compact('cashflows', 'cashflowdetail', 'types')); 
         
     }
 
@@ -69,16 +74,16 @@ class CashflowsController extends Controller
         $totalOutcome = number_format($totalOutcome, 0);
 
         $cashflows = Cashflows::where('iduser', Auth::id())->get();
-        $totalIncome = $cashflows->where('type', 'income')->sum('total');
-        $totalOutcome = $cashflows->where('type', 'outcome')->sum('total');
         session(['username' => Auth::user()->name]);
-        $totalmoney = number_format($totalIncome - $totalOutcome, 0);
-        $totalIncome = number_format($totalIncome, 0);
-        $totalOutcome = number_format($totalOutcome, 0);
         $requestedMonth = $request->month;
         $requestedYear = $request->year;
         $previousMonth = ($requestedMonth == 1) ? 12 : ($requestedMonth - 1);
         $previousYear = ($requestedMonth == 1) ? ($requestedYear - 1) : $requestedYear;
+        $totalIncome = DB::table('cashflows')->where('type', 'income')->whereMonth('created_at','=', $requestedMonth)->whereYear('created_at','=', $previousYear)->sum('total');
+        $totalOutcome = DB::table('cashflows')->where('type', 'outcome')->whereMonth('created_at','=', $requestedMonth)->whereYear('created_at','=', $previousYear)->sum('total');
+        $totalmoney = number_format($totalIncome - $totalOutcome, 0);
+        $totalIncome = number_format($totalIncome, 0);
+        $totalOutcome = number_format($totalOutcome, 0);
         $query = DB::table('cashflows')->where('iduser', Auth::id());
         $currentMonthCashflow = $query->where('type', 'income')
         ->whereMonth('created_at','=', $requestedMonth)
@@ -116,6 +121,7 @@ class CashflowsController extends Controller
                 ];
             }
         }
+
         return view('/generate/report', compact('cashflows', 'totalIncome', 'totalOutcome', 'totalmoney', 'totalImprovement', 'requestedMonth', 'requestedYear', 'totalCustomer', 'dailyCustomerData'));
     }
     

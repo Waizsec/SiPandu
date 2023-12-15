@@ -30,3 +30,20 @@ $(document).ready(function() {
     });
   });
 
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get the form element by its ID
+    var form = document.getElementById("invoiceForm");
+
+    form.addEventListener("submit", function (event) {
+        // Get the value of the "customerName" input
+        var customerName = document.getElementById("customerName").value;
+
+        // Check if the "customerName" is empty
+        if (customerName.trim() === "") {
+            // Prevent form submission
+            event.preventDefault();
+            alert("Please enter the customer's name.");
+        }
+    });
+});  
+

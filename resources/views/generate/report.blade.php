@@ -13,7 +13,7 @@
     <div class="w-[25vw] h-[52vw] bg-white border-[0.1vw] border-[#e9e9e9] px-[3vw] py-[5vw]">
         <p class="text-biru text-[1.1vw]">Report</p>
         <p class="text-[1.9vw] mt-[0.3vw]">This Month</p>
-        <p class="text-[0.9vw] font-thin">May 2023</p>
+        <p class="text-[0.9vw] font-thin">{{ date('F', strtotime("{$requestedYear}-{$requestedMonth}-01")) }} - {{ $requestedYear }}</p>
         <div class="flex items-center justify-center w-full mt-[5vw] flex-col">
             <img src="/image/icons/performance.svg" class="w-[70%]" alt="">
             <p class="mt-[-6vw] flex text-[4vw] items-center">{{ $totalImprovement }} <span>
@@ -94,10 +94,10 @@
             <div class="w-full mt-[4vw]">
                 <div class="w-full flex items-end">
                     <div class="h-[25.5vw] w-[4vw] pr-[3vw] mr-[1vw] border-r-[0.1vw] border-[#909090] mb-[7vw] flex flex-col justify-between items-center">
-                        <p class="text-[0.9vw]">100%</p>
-                        <p class="text-[0.9vw]">75%</p>
-                        <p class="text-[0.9vw]">25%</p>
-                        <p class="text-[0.9vw]">0%</p>
+                        <p class="text-[0.9vw]">{{ round($totalCustomer) }}</p>
+                        <p class="text-[0.9vw]">{{ round($totalCustomer*50/100) }}</p>
+                        <p class="text-[0.9vw]">{{ round($totalCustomer*25/100) }}</p>
+                        <p class="text-[0.9vw]">0</p>
                     </div>
                     <div class="w-full overflow-x-scroll">
                         <div class="overflow-x-scroll w-full">

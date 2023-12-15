@@ -24,12 +24,7 @@
                 Password*
             </label>
             <input type="password" name="password" class="w-full h-[3vw] border-[0.1vw] border-grey-500 placeholder:text-[0.9vw] pl-[1vw] mt-[1vw] rounded-[1vw] text-[0.9vw] outline-none" placeholder="******" required>
-            <div class="my-[1.3vw] flex items-center">
-                <input type="checkbox" id="myCheckbox" name="myCheckbox" value="checked" 
-                class="mr-[0.6vw] ml-[0.5vw] bg-biru">
-                <label for="myCheckbox" class="text-[0.9vw] text-third">Keep me logged in</label>
-            </div>
-            <input type="submit" value="Sign In" class="text-[0.9vw] bg-biru text-white w-full h-[3vw] rounded-[1vw] cursor-pointer hover:bg-[#8192f4] duration-[0.6s] ease-in-out">
+            <input type="submit" value="Sign In" class="text-[0.9vw] bg-biru text-white mt-[2vw] w-full h-[3vw] rounded-[1vw] cursor-pointer hover:bg-[#8192f4] duration-[0.6s] ease-in-out">
             <p class="text-third text-[0.9vw] mt-[1vw]">Not registered yet? <a href="/register" class="text-biru">Create an Account</a></p>
         </form>
         {{-- Right Background --}}

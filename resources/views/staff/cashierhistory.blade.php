@@ -41,10 +41,14 @@
             <h2 class=" text-[1.5vw]">Invoice List</h2>
             <div class="flex">
                 <div class="w-[20vw] bg-[#F4F7FE] flex items-center px-[1vw] rounded-[1vw] h-[3vw]">
-                    <div class="flex">
+                    <form action="" method="get" class="flex">
                         <img src="/image/icons/search.svg" class="w-[0.8vw]" alt="">
-                        <input type="text" placeholder="Search" class="ml-[1vw] bg-transparent text-[0.9vw] outline-none">
-                    </div>
+                        @if (isset($searchTerm))
+                            <input type="text" name="search" value="{{ $searchTerm }}" class="ml-[1vw] bg-transparent text-[0.9vw] outline-none">
+                        @else 
+                            <input type="text" name="search" value="" placeholder="Search" class="ml-[1vw] bg-transparent text-[0.9vw] outline-none">
+                        @endif
+                    </form>
                 </div>
             </div>
         </div>

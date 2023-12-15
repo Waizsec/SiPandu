@@ -44,7 +44,6 @@
                     <h1 class="text-[1.8vw]">Items</h1>
                     <div class="w-[15vw] bg-[#F4F7FE] flex items-center px-[1vw] rounded-[1vw] h-[3vw]">
                         <form class="flex" action="/cashier/dashboard" method="get">
-                            @csrf
                             <button>
                                 <img src="/image/icons/search.svg" class="w-[0.8vw]" alt="">
                             </button>
@@ -144,7 +143,7 @@
                             @csrf
                             <input type="submit" value="Reset" class="self-end mt-[4vw] text-[0.9vw] text-white bg-red-400 h-[2.6vw] w-[6vw] mr-[1vw] rounded-[0.3vw] cursor-pointer">
                         </form>
-                        <form action="/cashier/invoice/create" method="post">
+                        <form action="/cashier/invoice/create" method="post" id="invoiceForm">
                             @csrf
                             <input type="text" name="custname" value="" id="custname" hidden>
                             @if (isset($plainTotalPrice))
