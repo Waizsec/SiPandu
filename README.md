@@ -1,7 +1,8 @@
-<h1>Lakukan ini sebelum running program :</h1>
-- composer install
-- npm install
-- atur env 
-- php artisan migrate
-- running file pentaho (wajib seting jbdc atau jndi untuk database sendiri)
-- php artisan serve (laravel) & npm run dev (react)
+# Langkah-langkah Sebelum Menjalankan Program
+
+1. Jalankan `composer install`
+2. Jalankan `npm install`
+3. Atur pengaturan lingkungan (*environment settings*)
+4. Jalankan `php artisan migrate`
+5. Jalankan file Pentaho (Pastikan pengaturan JDBC atau JNDI untuk database Anda sendiri)
+6. Jalankan `php artisan serve` (untuk Laravel) & `npm run dev` (untuk React)
