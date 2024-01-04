@@ -16,12 +16,18 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $data = [
-            'name' => $request->name,
+            'name' => ucfirst($request->name),
             'email' => $request->email,
             'phone' => $request->phone,
+            'region' => ucfirst($request->region),
+            'income_start' => $request->income_start,
             'password' => Hash::make($request->password),
+            'created_at' => now(),  // Set the 'created_at' column
+            'updated_at' => now(),  
         ];
-        User::create($data);
+        
+        // Insert into the 'users' table using the Query Builder
+        DB::table('users')->insert($data);
 
  
         $credentials = $request->validate([
@@ -30,8 +36,10 @@ class AuthController extends Controller
         ]);
  
         if (Auth::attempt($credentials)) {
+            $user = Auth::user();
             $request->session()->regenerate();
- 
+            session(['rating' => $user->rating]);
+            session(['type' => $user->type]);
             return redirect('/dashboard');
         }else{
             return redirect('/register');
@@ -46,11 +54,23 @@ class AuthController extends Controller
         ]);
  
         if (Auth::attempt($credentials)) {
+            $user = Auth::user();
             $request->session()->regenerate();
-            return redirect('/dashboard');
-        }else{
+            session(['rating' => $user->rating]);
+            session(['type' => $user->type]);
+            switch ($user->type) {
+                case 'admin':
+                    return redirect('/admin');
+                case 'user':
+                case 'company':
+                    return redirect('/dashboard');
+                default:
+                    return redirect('/');
+            }
+        } else {
             return redirect('/');
         }
+        
     }
 
     public function logout(Request $request): RedirectResponse
@@ -101,6 +121,7 @@ class AuthController extends Controller
                     ->where('userid', $userId)
                     ->delete());
             } 
+            session(['type' => 'user']);
         } elseif ($user->type === 'user') {
             if (DB::table('users')
                 ->where('id', $userId)
@@ -112,7 +133,26 @@ class AuthController extends Controller
                     ['userid' => $userId, 'tokens' => $stockToken, 'role' => 'stock'],
                 ])); 
             } 
+            session(['type' => 'company']);
         }
         return redirect('/setting');
     }
+
+    public function rating(Request $request)
+    {
+        if ($request->remove !== null) {
+            session(['rating' => 'false']);
+            return redirect('/dashboard');
+        }else{
+            $request->validate([
+                'rating' => 'required|integer|between:1,5',
+            ]);
+            $user = Auth::user();
+            DB::table('users')->where('id', $user->id)->update(['rating' => $request->rating]);
+            session(['rating' => $request->rating]);
+            return redirect('/dashboard');
+        }
+       
+    }
+
 }

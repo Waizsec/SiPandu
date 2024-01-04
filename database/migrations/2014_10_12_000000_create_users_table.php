@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone');
-            $table->enum('type', ['user', 'company'])->default('user'); 
+            $table->enum('type', ['user', 'company', 'admin'])->default('user'); 
+            $table->string('region'); 
+            $table->integer('income_start')->nullable(); 
+            $table->integer('rating')->nullable(); 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

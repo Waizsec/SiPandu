@@ -9,8 +9,8 @@
     @vite('resources/css/app.css')
 </head>
 <body>
-    <div class="flex w-full h-[57vw] overflow-hidden">
-        <form action="/register/auth" method="POST" class="w-[50vw] h-screen flex flex-col justify-center px-[15vw]">
+    <div class="flex w-full  overflow-hidden">
+        <form action="/register/auth" method="POST" class="w-[50vw] pt-[5vw] flex flex-col justify-center px-[15vw]">
             @csrf
             <h2 class="text-[1.8vw] text-[#2B3674] font-semibold">Sign Up</h2>
             <p class="text-[0.9vw] text-[#A3AED0] mt-[0.4vw] mb-[2vw]">
@@ -29,6 +29,14 @@
                 Phone Number*
             </label>
             <input type="text" name="phone" class="w-full h-[3vw] border-[0.1vw] border-grey-500 placeholder:text-[0.9vw] pl-[1vw] mt-[1vw] rounded-[1vw] mb-[1vw] text-[0.9vw] outline-none" placeholder="Ex: +62878609XXXXX" required>
+            <label for="phone" class="text-biru text-[0.9vw]">
+                Region*
+            </label>
+            <input type="text" name="region" class="w-full h-[3vw] border-[0.1vw] border-grey-500 placeholder:text-[0.9vw] pl-[1vw] mt-[1vw] rounded-[1vw] mb-[1vw] text-[0.9vw] outline-none" placeholder="Ex: Surabaya" required>
+            <label for="phone" class="text-biru text-[0.9vw]">
+                What is your average income right now?*
+            </label>
+            <input type="text" name="income_start" class="w-full h-[3vw] border-[0.1vw] border-grey-500 placeholder:text-[0.9vw] pl-[1vw] mt-[1vw] rounded-[1vw] mb-[1vw] text-[0.9vw] outline-none" placeholder="Ex: 100000" required>
             <label for="password" class="text-biru text-[0.9vw]">
                 Password*
             </label>

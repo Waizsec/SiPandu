@@ -61,23 +61,26 @@
         </div>
 
         {{-- Company Mode --}}
-        @if (isset($tokencashier))
-        <form class="flex mt-[3vw] items-center" action="/updatestatus" method="post">
-            @csrf
-            <h2 class="text-[1.7vw]">Company Mode</h2>
-            <button class="w-[4vw] h-[1.8vw] bg-[#70FF75] ml-[2vw] rounded-full relative cursor-pointer" onclick="return confirm('Change to user mode?')">
-                <div class="inner-div w-[1.8vw] h-full rounded-full bg-white border-[#70FF75] border-[0.1vw] move-right move-right"></div>
-            </button>
-        </form>
-        @else
-        <form class="flex mt-[3vw] items-center" action="/updatestatus" method="post">
-            @csrf
-            <h2 class="text-[1.7vw]">Company Mode</h2>
-            <button class="w-[4vw] h-[1.8vw] bg-[#FF7373] ml-[2vw] rounded-full relative cursor-pointer" onclick="return confirm('Change to company mode?')">
-                <div class="inner-div w-[1.8vw] h-full rounded-full bg-white border-[#FF7373] border-[0.1vw]"></div>
-            </button>
-        </form>
+        @if (session('type') == 'user')
+            @if (isset($tokencashier))
+            <form class="flex mt-[3vw] items-center" action="/updatestatus" method="post">
+                @csrf
+                <h2 class="text-[1.7vw]">Company Mode {{ session('type') }}</h2>
+                <button class="w-[4vw] h-[1.8vw] bg-[#70FF75] ml-[2vw] rounded-full relative cursor-pointer" onclick="return confirm('Change to user mode?')">
+                    <div class="inner-div w-[1.8vw] h-full rounded-full bg-white border-[#70FF75] border-[0.1vw] move-right move-right"></div>
+                </button>
+            </form>
+            @else
+            <form class="flex mt-[3vw] items-center" action="/updatestatus" method="post">
+                @csrf
+                <h2 class="text-[1.7vw]">Company Mode</h2>
+                <button class="w-[4vw] h-[1.8vw] bg-[#FF7373] ml-[2vw] rounded-full relative cursor-pointer" onclick="return confirm('Change to company mode? (You will not be able to revert this process)')">
+                    <div class="inner-div w-[1.8vw] h-full rounded-full bg-white border-[#FF7373] border-[0.1vw]"></div>
+                </button>
+            </form>
+            @endif
         @endif
+       
         
         <div class="flex mt-[2vw] mb-[4vw]">
             <div class="flex flex-col px-[2vw] bg-white py-[1.5vw] rounded-[0.2vw] w-[27vw] mr-[3vw]">

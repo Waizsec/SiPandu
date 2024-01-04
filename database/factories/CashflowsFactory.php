@@ -22,18 +22,39 @@ class CashflowsFactory extends Factory
      */
     public function definition()
     {
-        $categories = ['invoice', 'other_category'];
-
+        $createdAt = $this->faker->dateTimeBetween('2023-01-01', '2023-12-31')->format('Y-m-d H:i:s');
         return [
             'cashflow' => $this->faker->word,
-            'type' => $this->faker->randomElement(['income', 'outcome']),
-            'category' => $this->faker->randomElement($categories),
-            'total' => $this->faker->numberBetween(100, 1000),
+            'type' => 'income', 
+            'category' => $this->faker->randomElement([
+                'salary', 
+                'other_income', 
+                'rental_income', 
+                'dividends',
+                'freelance',
+                'gifts',
+                'investment',
+                'savings_interest',
+                'business_income',
+                'lottery_winnings',
+                'pension',
+                'scholarship',
+                'tips',
+                'commission',
+                'bonus',
+                'alimony',
+                'child_support',
+                'royalties',
+                'annuity',
+                'reimbursement'
+            ]),
+            'total' => $this->faker->numberBetween(555000, 1500000),
             'desc' => $this->faker->sentence,
-            'invoiceid' => $this->faker->boolean(70) ? $this->faker->numberBetween(1, 3) : null,
-            'iduser' => $this->faker->numberBetween(1,2), // Adjust the range as needed
-            'created_at' => $this->faker->dateTimeBetween('2023-09-01', '2023-12-31'),
-            'updated_at' => $this->faker->dateTimeBetween('2023-09-01', '2023-12-31'),
+            'invoiceid' => null,
+            'iduser' => $this->faker->numberBetween(1, 1000), 
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt,
         ];
     }
+    
 }

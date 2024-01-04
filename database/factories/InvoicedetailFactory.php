@@ -23,13 +23,25 @@ class InvoicedetailFactory extends Factory
      */
     public function definition()
     {
+        $createdAt = $this->faker->dateTimeBetween('2023-01-01', '2023-12-31')->format('Y-m-d H:i:s');
         return [
-            'invoiceid' => $this->faker->unique()->numberBetween(1, 10), 
-            'items' => $this->faker->word,
+            'invoiceid' => $this->faker->numberBetween(1, 1000), 
+            'items' => $this->faker->randomElement([
+                'T-shirt', 'Jeans', 'Sneakers', 'Hat', 'Watch',
+                'Pizza', 'Burger', 'Sushi', 'Pasta', 'Smoothie',
+                'Laptop', 'Phone', 'Camera', 'Headphones', 'Backpack',
+                'Book', 'Magazine', 'Notebook', 'Pen', 'Painting',
+                'Coffee Mug', 'Fitness Tracker', 'Sunglasses', 'Guitar',
+                'Running Shoes', 'Handbag', 'Desk Chair', 'Candle',
+                'Bluetooth Speaker', 'Plant', 'Art Print', 'Smartwatch',
+                'Water Bottle', 'Earrings', 'Board Game', 'Wallet',
+                'Dress', 'Sandals', 'Cupcake', 'Yoga Mat', 'Soccer Ball',
+            ]),
+            
             'amount' => $this->faker->numberBetween(1, 10),
-            'prices' => $this->faker->numberBetween(10, 100),
-            'created_at' => $this->faker->dateTimeBetween('2023-09-01', '2023-12-31'),
-            'updated_at' => $this->faker->dateTimeBetween('2023-09-01', '2023-12-31'),
+            'prices' => $this->faker->numberBetween(10000, 100000),
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt,
         ];
     }
 }

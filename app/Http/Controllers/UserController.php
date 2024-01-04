@@ -11,10 +11,75 @@ use App\Models\Usertokens;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
+    public function getAdmin(){
+
+        // Average Rating
+        $averageRating = User::whereNotNull('rating')->avg('rating');
+
+        // Average Growth
+        $averageDifference = round(DB::table('cashflow_difference_view')->value('average_difference'));
+        $averageIncomeStart = round(User::whereNotNull('income_start')->avg('income_start'));
+        $growth = $averageDifference - $averageIncomeStart;
+        $percentageDifference = (($averageDifference - $averageIncomeStart) / abs($averageIncomeStart)) * 100;
+
+        // Grafik Total User
+        $totaluser = DB::table('fact_totalusers')
+            ->join('dim_regions', 'fact_totalusers.sk_regions', '=', 'dim_regions.sk_regions')
+            ->join('dim_usertypes', 'fact_totalusers.sk_usertypes', '=', 'dim_usertypes.sk_usertypes')
+            ->join('dim_dates', 'fact_totalusers.year_month', '=', 'dim_dates.year_month')
+            ->get();
+
+        //Grafik User Growth 
+        $userGrowth = DB::table('fact_avggrowth')
+            ->join('dim_regions', 'fact_avggrowth.sk_regions', '=', 'dim_regions.sk_regions')
+            ->join('dim_usertypes', 'fact_avggrowth.sk_usertypes', '=', 'dim_usertypes.sk_usertypes')
+            ->join('dim_dates', 'fact_avggrowth.year_month', '=', 'dim_dates.year_month')
+            ->get();   
+
+        // Grafik Selling Items
+        $sellingItems = DB::table('fact_sellingitems')
+            ->join('dim_regions', 'fact_sellingitems.sk_regions', '=', 'dim_regions.sk_regions')
+            ->join('dim_dates', 'fact_sellingitems.year_month', '=', 'dim_dates.year_month')
+            ->join('dim_items', 'fact_sellingitems.itemid', '=', 'dim_items.itemid')
+            ->select('dim_regions.region', 'dim_dates.dates', 'dim_items.items', 'fact_sellingitems.total_quantity')
+            ->get();
+
+        
+        $bestSellingItems = DB::table('fact_sellingitems')
+            ->select(
+                'dim_items.items',
+                'dim_dates.dates',
+                DB::raw('SUM(fact_sellingitems.total_quantity) as total_quantity'),
+                DB::raw('ROUND(AVG(fact_sellingitems.total_quantity)) as avg_quantity')
+            )
+            ->groupBy('dim_items.items', 'dim_dates.dates')
+            ->join('dim_items', 'fact_sellingitems.itemid', '=', 'dim_items.itemid')
+            ->join('dim_dates', 'fact_sellingitems.year_month', '=', 'dim_dates.year_month')
+            ->get();
+            
+        $regions = DB::table('dim_regions')->select('region')->get();
+        
+        return Inertia::render('Admin', [
+            'averageRating' => number_format($averageRating, 1),
+            'averageIncomeStart' => number_format($averageIncomeStart),
+            'averageGrowth' => number_format($growth),
+            'percentageDifference' => number_format($percentageDifference,1),
+            'totaluser' => $totaluser,
+            'usergrowth' => $userGrowth,
+            'sellingItems' => $sellingItems,
+            'bestSellingItems' => $bestSellingItems,
+            'regions' => $regions
+        ]);
+    }
+
+
+
+    
     public function index(Request $request){
         $cashflows = Cashflows::where('iduser', Auth::id())->get();
         $totalIncome = $cashflows->where('type', 'income')->sum('total');

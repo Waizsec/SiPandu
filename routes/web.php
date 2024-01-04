@@ -1,12 +1,14 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CashflowsController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\StocksController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
-
+use Inertia\Inertia;
 
 
 // Auth
@@ -29,6 +31,7 @@ Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/staff/logout', [AuthController::class, 'logoutStaff']);
 Route::post('/updatestatus', [AuthController::class, 'updateStatus']);
 Route::post('/staff/login/auth', [AuthController::class, 'loginStaff']);
+Route::post('/rating', [AuthController::class, 'rating']);
 
 
 // USER ROUTE
@@ -68,3 +71,18 @@ Route::post('/add/stock', [StocksController::class, 'addStock']);
 Route::get('/stock/detailstock', [StocksController::class, 'detail']);
 Route::post('/stock/delete', [StocksController::class, 'delete']);
 Route::post('/stock/update', [StocksController::class, 'update']);
+
+// ADMIN ROUTE
+Route::get('/admin', [UserController::class, 'getAdmin'])->middleware('auth');;
+
+
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
+
+require __DIR__.'/auth.php';
